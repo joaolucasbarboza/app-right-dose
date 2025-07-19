@@ -1,7 +1,5 @@
 package com.fema.tcc.gateways.postgresql.entity;
 
-import com.fema.tcc.domains.enums.MedicineUnit;
-import com.fema.tcc.domains.medicine.DosagePerUnit;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -21,20 +19,11 @@ public class MedicineEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "medicine_id")
-  private Integer medicineId;
+  private Integer id;
 
   @NotNull private String name;
 
   private String description;
-
-  @NotNull private int quantity;
-
-  @NotNull
-  @Enumerated(EnumType.STRING)
-  private MedicineUnit unit;
-
-  @Embedded private DosagePerUnit dosagePerUnit;
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "created_at", updatable = false)

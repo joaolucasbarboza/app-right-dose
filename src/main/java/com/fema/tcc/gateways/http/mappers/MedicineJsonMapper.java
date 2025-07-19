@@ -1,74 +1,26 @@
 package com.fema.tcc.gateways.http.mappers;
 
 import com.fema.tcc.domains.medicine.Medicine;
-import com.fema.tcc.domains.user.User;
 import com.fema.tcc.gateways.http.jsons.MedicineRequestJson;
 import com.fema.tcc.gateways.http.jsons.MedicineResponseJson;
 import com.fema.tcc.gateways.postgresql.entity.MedicineEntity;
-import com.fema.tcc.gateways.postgresql.entity.UserEntity;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
 import java.util.List;
-import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Component
-@AllArgsConstructor
-public class MedicineJsonMapper {
+@Mapper(componentModel = "spring")
+public interface MedicineJsonMapper {
 
-  private final UserJsonMapper userJsonMapper;
+    MedicineJsonMapper INSTANCE = Mappers.getMapper(MedicineJsonMapper.class);
 
-  public Medicine requestToDomain(MedicineRequestJson medicineRequestJson) {
-    return new Medicine(
-        medicineRequestJson.name(),
-        medicineRequestJson.description(),
-        medicineRequestJson.quantity(),
-        medicineRequestJson.unit(),
-        medicineRequestJson.dosagePerUnit());
-  }
+    Medicine requestToDomain(MedicineRequestJson medicineRequestJson);
 
-  public MedicineEntity domainToEntity(Medicine medicine) {
-    UserEntity userEntity = userJsonMapper.domainToEntity(medicine.getUser());
+    MedicineResponseJson domainToResponse(Medicine medicine);
 
-    return new MedicineEntity(
-        medicine.getId(),
-        medicine.getName(),
-        medicine.getDescription(),
-        medicine.getQuantity(),
-        medicine.getUnit(),
-        medicine.getDosagePerUnit(),
-        medicine.getCreatedAt(),
-        medicine.getUpdatedAt(),
-        userEntity);
-  }
+    MedicineEntity domainToEntity(Medicine medicine);
 
-  public MedicineResponseJson domainToResponse(Medicine medicine) {
-    return new MedicineResponseJson(
-        medicine.getId(),
-        medicine.getName(),
-        medicine.getDescription(),
-        medicine.getQuantity(),
-        medicine.getUnit(),
-        medicine.getDosagePerUnit(),
-        medicine.getCreatedAt(),
-        medicine.getUpdatedAt());
-  }
+    Medicine entityToDomain(MedicineEntity medicineEntity);
 
-  public List<MedicineResponseJson> domainListToResponseList(List<Medicine> medicineList) {
-    return medicineList.stream().map(this::domainToResponse).collect(Collectors.toList());
-  }
-
-  public Medicine entityToDomain(MedicineEntity entity) {
-    User user = userJsonMapper.entityToDomain(entity.getUser());
-
-    return new Medicine(
-        entity.getMedicineId(),
-        entity.getName(),
-        entity.getDescription(),
-        entity.getQuantity(),
-        entity.getUnit(),
-        entity.getDosagePerUnit(),
-        user,
-        entity.getCreatedAt(),
-        entity.getUpdatedAt());
-  }
+    List<MedicineResponseJson> domainToResponseList(List<Medicine> medicineList);
 }
