@@ -17,6 +17,7 @@ public class UpdateStatusNotificationUseCase {
   public void execute(Long notificationId) {
     PrescriptionNotification prescriptionNotification =  prescriptionNotificationGateway.findById(notificationId);
     prescriptionNotification.setStatus(Status.SENT);
+    prescriptionNotification.setUpdatedAt(java.time.LocalDateTime.now());
     prescriptionNotificationGateway.update(prescriptionNotification);
   }
 }
