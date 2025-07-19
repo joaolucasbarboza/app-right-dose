@@ -15,7 +15,7 @@ public class SwaggerConfig {
     return new OpenAPI()
         .info(
             new Info()
-                .title("API de Exemplo")
+                .title("API Dose Certa")
                 .version("1.0")
                 .description("Documentação da API usando Swagger OpenAPI"))
         .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))

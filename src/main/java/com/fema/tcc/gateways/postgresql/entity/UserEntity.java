@@ -48,14 +48,24 @@ public class UserEntity implements UserDetails {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<MedicineEntity> medicines;
 
+  @Column(name = "fcm_token")
+  private String fcmToken;
+
   public UserEntity(
-      Integer userId, String name, String email, String password, Date createdAt, UserRole role) {
+      Integer userId,
+      String name,
+      String email,
+      String password,
+      Date createdAt,
+      UserRole role,
+      String fcmToken) {
     this.userId = userId;
     this.name = name;
     this.email = email;
     this.password = password;
     this.createdAt = createdAt;
     this.role = role;
+    this.fcmToken = fcmToken;
   }
 
   public UserEntity(Integer userId) {

@@ -10,7 +10,7 @@ public enum MedicineUnit {
   BOTTLE,
   PATCH,
   DROPS,
-  ML, // útil para líquidos
+  ML,
   TEASPOON,
   DOSE,
   CUSTOM

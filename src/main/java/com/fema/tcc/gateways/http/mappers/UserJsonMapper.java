@@ -16,7 +16,8 @@ public class UserJsonMapper {
         domain.getEmail(),
         domain.getPassword(),
         domain.getCreateAt(),
-        domain.getRole());
+        domain.getRole(),
+        domain.getFcmToken());
   }
 
   public User entityToDomain(UserEntity entity) {
@@ -25,12 +26,20 @@ public class UserJsonMapper {
         entity.getUserId(),
         entity.getName(),
         entity.getEmail(),
+        entity.getPassword(),
+        entity.getCreatedAt(),
         entity.getRole(),
+        entity.getFcmToken(),
         new ArrayList<>());
   }
 
   public UserResponseJson domainToResponse(User user) {
     return new UserResponseJson(
-        user.getUserId(), user.getName(), user.getEmail(), user.getCreateAt(), user.getRole());
+        user.getUserId(),
+        user.getName(),
+        user.getEmail(),
+        user.getCreateAt(),
+        user.getRole(),
+        user.getFcmToken());
   }
 }

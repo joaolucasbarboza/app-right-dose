@@ -7,12 +7,11 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 public class User {
   private Integer userId;
@@ -21,6 +20,8 @@ public class User {
   private String password;
   private Date createAt;
   private UserRole role;
+
+  @Setter private String fcmToken;
   private List<Medicine> medicines = new ArrayList<>();
 
   public User(Integer userId) {
@@ -41,12 +42,22 @@ public class User {
     this.medicines = new ArrayList<>();
   }
 
-  public User(Integer userId, String name, String email, UserRole role, List<Medicine> medicines) {
+  public User(
+      Integer userId,
+      String name,
+      String email,
+      String password,
+      Date date,
+      UserRole role,
+      String fcmToken,
+      List<Medicine> medicines) {
     this.userId = userId;
     this.name = name;
     this.email = email;
-    this.createAt = Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC));
+    this.password = password;
+    this.createAt = date;
     this.role = role;
+    this.fcmToken = fcmToken;
     this.medicines = medicines;
   }
 

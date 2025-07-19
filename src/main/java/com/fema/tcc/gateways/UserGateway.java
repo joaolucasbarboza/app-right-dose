@@ -8,5 +8,7 @@ public interface UserGateway {
 
   User save(User user);
 
+  User update(User user);
+
   boolean existsByEmail(String email);
 }

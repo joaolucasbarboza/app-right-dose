@@ -14,6 +14,18 @@ spring:
         format_sql: true
         show_sql: true
 
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_DEFAULT_USER}
+    password: ${RABBITMQ_DEFAULT_PASS}
+
+queue:
+  name: notificationQueue
+
+firebase:
+  service-account-file: classpath:firebase-service-account.json
+
 api:
   security:
     token:
