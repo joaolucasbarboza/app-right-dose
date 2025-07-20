@@ -1,42 +1,17 @@
 package com.fema.tcc.gateways.http.mappers;
 
-import com.fema.tcc.domains.prescription.Prescription;
 import com.fema.tcc.domains.prescriptionNotification.PrescriptionNotification;
-import com.fema.tcc.gateways.postgresql.entity.PrescriptionEntity;
 import com.fema.tcc.gateways.postgresql.entity.PrescriptionNotificationEntity;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 
-@AllArgsConstructor
-@Component
-public class PrescriptionNotificationJsonMapper {
+import java.util.List;
 
-  private final PrescriptionJsonMapper prescriptionJsonMapper;
+@Mapper(componentModel = "spring", uses = PrescriptionJsonMapper.class)
+public interface PrescriptionNotificationJsonMapper {
 
-  public PrescriptionNotificationEntity domainToEntity(
-      PrescriptionNotification prescriptionNotification) {
-    PrescriptionEntity prescriptionEntity =
-        prescriptionJsonMapper.domainToEntity(prescriptionNotification.getPrescription());
+  PrescriptionNotificationEntity domainToEntity(PrescriptionNotification prescriptionNotification);
 
-    return new PrescriptionNotificationEntity(
-        prescriptionNotification.getId(),
-        prescriptionEntity,
-        prescriptionNotification.getNotificationTime(),
-        prescriptionNotification.getStatus(),
-        prescriptionNotification.getCreatedAt(),
-        prescriptionNotification.getUpdatedAt());
-  }
+  List<PrescriptionNotificationEntity> domainToEntityList(List<PrescriptionNotification> prescriptionNotifications);
 
-  public PrescriptionNotification entityToDomain(PrescriptionNotificationEntity entity) {
-    Prescription prescriptionDomain =
-        prescriptionJsonMapper.entityToDomain(entity.getPrescription());
-
-    return new PrescriptionNotification(
-        entity.getNotificationId(),
-        prescriptionDomain,
-        entity.getNotificationTime(),
-        entity.getStatus(),
-        entity.getCreatedAt(),
-        entity.getUpdatedAt());
-  }
+  PrescriptionNotification entityToDomain(PrescriptionNotificationEntity entity);
 }

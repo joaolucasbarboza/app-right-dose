@@ -20,8 +20,7 @@ public class PrescriptionNotificationEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "notification_id")
-  private Long notificationId;
+  private Long id;
 
   @ManyToOne
   @JoinColumn(name = "prescription_id")

@@ -19,9 +19,10 @@ public class PrescriptionNotificationImpl implements PrescriptionNotificationGat
   private final PrescriptionNotificationJsonMapper jsonMapper;
 
   @Override
-  public void saveAll(List<PrescriptionNotification> prescriptions) {
+  public void saveAll(List<PrescriptionNotification> prescriptionNotifications) {
     List<PrescriptionNotificationEntity> entities =
-        prescriptions.stream().map(jsonMapper::domainToEntity).toList();
+        jsonMapper.domainToEntityList(prescriptionNotifications);
+
     repository.saveAll(entities);
   }
 
