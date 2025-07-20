@@ -5,31 +5,16 @@ import com.fema.tcc.gateways.http.jsons.LoginRequestJson;
 import com.fema.tcc.gateways.http.jsons.LoginResponseJson;
 import com.fema.tcc.gateways.http.jsons.RegisterRequestJson;
 import com.fema.tcc.gateways.http.jsons.RegisterResponseJson;
-import java.util.ArrayList;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 
-@Component
-public class AuthJsonMapper {
+@Mapper(componentModel = "spring")
+public interface AuthJsonMapper {
 
-  public User loginRequestToDomain(LoginRequestJson loginRequestJson) {
-    return new User(loginRequestJson.email(), loginRequestJson.password());
-  }
+  User loginRequestToDomain(LoginRequestJson loginRequestJson);
 
-  public LoginResponseJson toLoginResponseJson(String token) {
-    return new LoginResponseJson(token);
-  }
+  LoginResponseJson toLoginResponseJson(String token);
 
-  public User registerRequestToDomain(RegisterRequestJson registerRequestJson) {
-    return new User(
-        registerRequestJson.getName(),
-        registerRequestJson.getEmail(),
-        registerRequestJson.getPassword(),
-        registerRequestJson.getRole(),
-        new ArrayList<>());
-  }
+  User registerRequestToDomain(RegisterRequestJson registerRequestJson);
 
-  public RegisterResponseJson domainToRegisterResponse(User user) {
-    return new RegisterResponseJson(
-        user.getUserId(), user.getName(), user.getEmail(), user.getRole(), user.getCreateAt());
-  }
+  RegisterResponseJson domainToRegisterResponse(User user);
 }
