@@ -5,14 +5,11 @@ import com.fema.tcc.gateways.http.jsons.MedicineRequestJson;
 import com.fema.tcc.gateways.http.jsons.MedicineResponseJson;
 import com.fema.tcc.gateways.postgresql.entity.MedicineEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface MedicineJsonMapper {
-
-    MedicineJsonMapper INSTANCE = Mappers.getMapper(MedicineJsonMapper.class);
 
     Medicine requestToDomain(MedicineRequestJson medicineRequestJson);
 

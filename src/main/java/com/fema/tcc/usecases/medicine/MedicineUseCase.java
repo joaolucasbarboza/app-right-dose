@@ -48,8 +48,6 @@ public class MedicineUseCase {
 
     medicine.setName(medicineUpdate.getName());
     medicine.setDescription(medicineUpdate.getDescription());
-    medicine.setQuantity(medicineUpdate.getQuantity());
-    medicine.setUnit(medicineUpdate.getUnit());
 
     return medicineGateway.save(medicine);
   }
