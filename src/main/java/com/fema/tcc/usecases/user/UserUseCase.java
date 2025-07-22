@@ -15,7 +15,7 @@ public class UserUseCase {
   private final AuthService authService;
 
   public User getUser() {
-    return userGateway.findById(authService.getCurrentUserId());
+      return userGateway.findById(authService.getCurrentUserId());
   }
 
   public Integer getCurrentUser() {

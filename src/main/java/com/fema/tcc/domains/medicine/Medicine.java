@@ -7,6 +7,7 @@ import lombok.*;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Medicine {
@@ -16,11 +17,4 @@ public class Medicine {
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
   private User user;
-
-  public Medicine(
-      String name,
-      String description) {
-    this.name = name;
-    this.description = description;
-  }
 }

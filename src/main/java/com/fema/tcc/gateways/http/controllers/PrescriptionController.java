@@ -34,8 +34,10 @@ public class PrescriptionController {
   public ResponseEntity<PrescriptionResponseJson> create(
       @RequestBody PrescriptionRequestJson requestJson) {
 
+    Prescription request = prescriptionJsonMapper.requestToDomain(requestJson);
+
     Prescription prescription =
-        createUseCase.execute(prescriptionJsonMapper.requestToDomain(requestJson));
+        createUseCase.execute(request);
     PrescriptionResponseJson responseJson = prescriptionJsonMapper.domainToResponse(prescription);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(responseJson);

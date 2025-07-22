@@ -30,8 +30,10 @@ public class MedicineController {
   public ResponseEntity<MedicineResponseJson> create(
       @RequestBody @Valid MedicineRequestJson medicineRequestJson) {
 
+    Medicine request = medicineJsonMapper.requestToDomain(medicineRequestJson);
+
     Medicine medicine =
-        medicineUseCase.create(medicineJsonMapper.requestToDomain(medicineRequestJson));
+        medicineUseCase.create(request);
     MedicineResponseJson responseJson = medicineJsonMapper.domainToResponse(medicine);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(responseJson);

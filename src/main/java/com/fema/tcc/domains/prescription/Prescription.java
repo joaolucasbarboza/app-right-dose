@@ -15,7 +15,7 @@ import lombok.*;
 @Builder
 public class Prescription {
 
-  private Long prescriptionId;
+  private Long id;
   private Medicine medicine;
   private User user;
 

@@ -23,8 +23,7 @@ public class PrescriptionEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "prescription_id")
-  private Long prescriptionId;
+  private Long id;
 
   @ManyToOne
   @JoinColumn(name = "medicine_id")
@@ -71,7 +70,7 @@ public class PrescriptionEntity {
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "created_at", updatable = false)
-  private LocalDateTime createdAt = LocalDateTime.now();
+  private LocalDateTime createdAt;
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "updated_at")

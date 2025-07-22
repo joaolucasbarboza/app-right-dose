@@ -3,10 +3,8 @@ package com.fema.tcc.gateways.postgresql.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Setter
@@ -27,14 +25,14 @@ public class MedicineEntity {
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "created_at", updatable = false)
-  private LocalDateTime createdAt = LocalDateTime.now();
+  private LocalDateTime createdAt;
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "updated_at")
   @UpdateTimestamp
   private LocalDateTime updatedAt;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   @NotNull
   private UserEntity user;

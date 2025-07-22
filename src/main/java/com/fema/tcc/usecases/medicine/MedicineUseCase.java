@@ -5,6 +5,8 @@ import com.fema.tcc.domains.user.User;
 import com.fema.tcc.gateways.MedicineGateway;
 import com.fema.tcc.gateways.http.exceptions.NotFoundException;
 import com.fema.tcc.usecases.user.UserUseCase;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,7 +44,7 @@ public class MedicineUseCase {
             .findById(medicineUpdate.getId())
             .orElseThrow(() -> new NotFoundException("Medicine not found"));
 
-    if (!medicine.getUser().getUserId().equals(user.getUserId())) {
+    if (!medicine.getUser().getId().equals(user.getId())) {
       throw new SecurityException("You do not have permission to update this medicine");
     }
 
@@ -57,7 +59,7 @@ public class MedicineUseCase {
         .findById(id)
         .ifPresentOrElse(
             medicine -> {
-              if (!medicine.getUser().getUserId().equals(userUseCase.getUser().getUserId())) {
+              if (!medicine.getUser().getId().equals(userUseCase.getUser().getId())) {
                 throw new SecurityException("You do not have permission to delete this medicine");
               }
               medicineGateway.deleteMedicine(medicine);

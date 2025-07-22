@@ -14,6 +14,6 @@ public class AuthService {
   }
 
   public Integer getCurrentUserId() {
-    return getCurrentUser().getUserId();
+    return getCurrentUser().getId();
   }
 }
