@@ -19,9 +19,10 @@ public class PrescriptionNotificationImpl implements PrescriptionNotificationGat
   private final PrescriptionNotificationJsonMapper jsonMapper;
 
   @Override
-  public void saveAll(List<PrescriptionNotification> prescriptions) {
+  public void saveAll(List<PrescriptionNotification> prescriptionNotifications) {
     List<PrescriptionNotificationEntity> entities =
-        prescriptions.stream().map(jsonMapper::domainToEntity).toList();
+        jsonMapper.domainToEntityList(prescriptionNotifications);
+
     repository.saveAll(entities);
   }
 
@@ -47,5 +48,12 @@ public class PrescriptionNotificationImpl implements PrescriptionNotificationGat
     return repository.findAllReadyToNotify(now, limitTime).stream()
         .map(jsonMapper::entityToDomain)
         .toList();
+  }
+
+  @Override
+  public List<PrescriptionNotification> findAllByPrescriptionId(Long medicineId) {
+    List<PrescriptionNotificationEntity> entities = repository.findAllByPrescriptionId(medicineId);
+
+    return entities.stream().map(jsonMapper::entityToDomain).toList();
   }
 }

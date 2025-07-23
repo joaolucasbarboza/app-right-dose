@@ -13,4 +13,6 @@ public interface PrescriptionNotificationGateway {
   PrescriptionNotification findById(Long id);
 
   List<PrescriptionNotification> findAllReadyToNotify(LocalDateTime now, LocalDateTime limitTime);
+
+  List<PrescriptionNotification> findAllByPrescriptionId(Long prescriptionId);
 }

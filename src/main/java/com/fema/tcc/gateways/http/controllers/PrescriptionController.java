@@ -3,6 +3,7 @@ package com.fema.tcc.gateways.http.controllers;
 import com.fema.tcc.domains.prescription.Prescription;
 import com.fema.tcc.gateways.http.jsons.PrescriptionRequestJson;
 import com.fema.tcc.gateways.http.jsons.PrescriptionResponseJson;
+import com.fema.tcc.gateways.http.jsons.PrescriptionWithNotificationsResponseJson;
 import com.fema.tcc.gateways.http.mappers.PrescriptionJsonMapper;
 import com.fema.tcc.usecases.prescription.CreatePrescriptionUseCase;
 import com.fema.tcc.usecases.prescription.GetAllPrescriptionUseCase;
@@ -34,8 +35,9 @@ public class PrescriptionController {
   public ResponseEntity<PrescriptionResponseJson> create(
       @RequestBody PrescriptionRequestJson requestJson) {
 
-    Prescription prescription =
-        createUseCase.execute(prescriptionJsonMapper.requestToDomain(requestJson));
+    Prescription request = prescriptionJsonMapper.requestToDomain(requestJson);
+
+    Prescription prescription = createUseCase.execute(request);
     PrescriptionResponseJson responseJson = prescriptionJsonMapper.domainToResponse(prescription);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(responseJson);
@@ -59,10 +61,11 @@ public class PrescriptionController {
       summary = "Buscar uma prescrição especifica.",
       description = "Buscar uma prescrição especifica por usuário. ")
   @GetMapping(value = "/{id}", produces = "application/json;charset=UTF-8")
-  public ResponseEntity<PrescriptionResponseJson> findById(@PathVariable Long id) {
+  public ResponseEntity<PrescriptionWithNotificationsResponseJson> findById(@PathVariable Long id) {
 
     Prescription prescription = prescriptionUseCase.getById(id);
-    PrescriptionResponseJson responseJson = prescriptionJsonMapper.domainToResponse(prescription);
+    PrescriptionWithNotificationsResponseJson responseJson =
+        prescriptionJsonMapper.toResponseWithNotifications(prescription);
 
     return ResponseEntity.status(HttpStatus.OK).body(responseJson);
   }

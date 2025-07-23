@@ -20,8 +20,7 @@ public class PrescriptionNotificationEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "notification_id")
-  private Long notificationId;
+  private Long id;
 
   @ManyToOne
   @JoinColumn(name = "prescription_id")
@@ -37,7 +36,7 @@ public class PrescriptionNotificationEntity {
   private Status status;
 
   @Column(name = "created_at", updatable = false)
-  private LocalDateTime createdAt = LocalDateTime.now();
+  private LocalDateTime createdAt;
 
   @Column(name = "updated_at")
   @UpdateTimestamp

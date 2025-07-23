@@ -25,7 +25,7 @@ public class UpdatePrescriptionUseCase {
         .findById(id)
         .map(
             prescription -> {
-              if (!prescription.getUser().getUserId().equals(user.getUserId())) {
+              if (!prescription.getUser().getId().equals(user.getId())) {
                 throw new SecurityException("User is not authorized to perform this action");
               }
 
@@ -41,7 +41,7 @@ public class UpdatePrescriptionUseCase {
                       .findById(updatedPrescription.getMedicine().getId())
                       .map(
                           foundMedicine -> {
-                            if (!foundMedicine.getUser().getUserId().equals(user.getUserId())) {
+                            if (!foundMedicine.getUser().getId().equals(user.getId())) {
                               throw new SecurityException(
                                   "User is not authorized to perform this action");
                             }

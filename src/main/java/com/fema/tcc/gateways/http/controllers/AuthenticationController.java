@@ -1,5 +1,6 @@
 package com.fema.tcc.gateways.http.controllers;
 
+import com.fema.tcc.domains.user.User;
 import com.fema.tcc.gateways.http.jsons.LoginRequestJson;
 import com.fema.tcc.gateways.http.jsons.LoginResponseJson;
 import com.fema.tcc.gateways.http.jsons.RegisterRequestJson;
@@ -51,9 +52,10 @@ public class AuthenticationController {
   public ResponseEntity<RegisterResponseJson> register(
       @RequestBody @Valid RegisterRequestJson registerRequestJson) {
 
-    RegisterResponseJson registerResponseJson =
-        authJsonMapper.domainToRegisterResponse(
-            registerUseCase.execute(authJsonMapper.registerRequestToDomain(registerRequestJson)));
+    User request = authJsonMapper.registerRequestToDomain(registerRequestJson);
+    User execute = registerUseCase.execute(request);
+
+    RegisterResponseJson registerResponseJson = authJsonMapper.domainToRegisterResponse(execute);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(registerResponseJson);
   }

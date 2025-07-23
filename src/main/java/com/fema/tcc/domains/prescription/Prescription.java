@@ -3,33 +3,38 @@ package com.fema.tcc.domains.prescription;
 import com.fema.tcc.domains.enums.DosageUnit;
 import com.fema.tcc.domains.enums.Frequency;
 import com.fema.tcc.domains.medicine.Medicine;
+import com.fema.tcc.domains.prescriptionNotification.PrescriptionNotification;
 import com.fema.tcc.domains.user.User;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.List;
+import lombok.*;
 
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Prescription {
 
-  private Long prescriptionId;
+  private Long id;
   private Medicine medicine;
   private User user;
+
   private double dosageAmount;
   private DosageUnit dosageUnit;
+
   private int frequency;
   private Frequency uomFrequency;
+
   private int totalDays;
   private LocalDateTime startDate;
   private LocalDateTime endDate;
+
   private boolean wantsNotifications;
   private String instructions;
+
+  private List<PrescriptionNotification> notifications;
+
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
 

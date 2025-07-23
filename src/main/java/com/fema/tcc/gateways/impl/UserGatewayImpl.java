@@ -18,7 +18,7 @@ public class UserGatewayImpl implements UserGateway {
 
   @Override
   public User findById(Integer userId) {
-    return userJsonMapper.entityToDomain(userRepository.findByUserId(userId));
+    return userJsonMapper.entityToDomain(userRepository.findById(userId).orElseThrow());
   }
 
   @Override
@@ -30,7 +30,7 @@ public class UserGatewayImpl implements UserGateway {
 
   @Override
   public User update(User user) {
-    if (!userRepository.existsById(user.getUserId())) {
+    if (!userRepository.existsById(user.getId())) {
       throw new NotFoundException("Usuário não encontrado para atualização");
     }
 

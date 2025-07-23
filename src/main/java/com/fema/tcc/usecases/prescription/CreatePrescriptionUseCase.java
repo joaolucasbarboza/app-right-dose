@@ -29,7 +29,7 @@ public class CreatePrescriptionUseCase {
         .findById(request.getMedicine().getId())
         .map(
             medicine -> {
-              if (!medicine.getUser().getUserId().equals(user.getUserId())) {
+              if (!medicine.getUser().getId().equals(user.getId())) {
                 throw new SecurityException("User is not authorized to perform this action");
               }
 

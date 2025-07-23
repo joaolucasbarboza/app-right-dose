@@ -30,8 +30,9 @@ public class MedicineController {
   public ResponseEntity<MedicineResponseJson> create(
       @RequestBody @Valid MedicineRequestJson medicineRequestJson) {
 
-    Medicine medicine =
-        medicineUseCase.create(medicineJsonMapper.requestToDomain(medicineRequestJson));
+    Medicine request = medicineJsonMapper.requestToDomain(medicineRequestJson);
+
+    Medicine medicine = medicineUseCase.create(request);
     MedicineResponseJson responseJson = medicineJsonMapper.domainToResponse(medicine);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(responseJson);
@@ -41,7 +42,7 @@ public class MedicineController {
   public ResponseEntity<List<MedicineResponseJson>> getMedicines() {
 
     List<MedicineResponseJson> medicineResponseList =
-        medicineJsonMapper.domainListToResponseList(medicineUseCase.getMedicines());
+        medicineJsonMapper.domainToResponseList(medicineUseCase.getMedicines());
 
     return ResponseEntity.status(HttpStatus.OK).body(medicineResponseList);
   }
@@ -55,13 +56,12 @@ public class MedicineController {
     return ResponseEntity.status(HttpStatus.OK).body(responseJson);
   }
 
-  @PutMapping(value = "/{medicineId}", produces = "application/json;charset=UTF-8")
+  @PutMapping(value = "/{id}", produces = "application/json;charset=UTF-8")
   public ResponseEntity<MedicineResponseJson> update(
-      @PathVariable Integer medicineId,
-      @RequestBody @Valid MedicineRequestJson medicineRequestJson) {
+      @PathVariable Integer id, @RequestBody @Valid MedicineRequestJson medicineRequestJson) {
 
     Medicine medicine = medicineJsonMapper.requestToDomain(medicineRequestJson);
-    medicine.setId(medicineId);
+    medicine.setId(id);
 
     MedicineResponseJson responseJson =
         medicineJsonMapper.domainToResponse(medicineUseCase.updateMedicine(medicine));

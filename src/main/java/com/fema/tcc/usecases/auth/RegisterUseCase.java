@@ -2,6 +2,9 @@ package com.fema.tcc.usecases.auth;
 
 import com.fema.tcc.domains.user.User;
 import com.fema.tcc.gateways.UserGateway;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +24,15 @@ public class RegisterUseCase {
     }
 
     String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
-    User newUser = new User(user.getName(), user.getEmail(), encryptedPassword, user.getRole());
+
+    User newUser =
+        User.builder()
+            .name(user.getName())
+            .email(user.getEmail())
+            .password(encryptedPassword)
+            .role(user.getRole())
+            .createdAt(Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC)))
+            .build();
 
     return userGateway.save(newUser);
   }

@@ -24,7 +24,7 @@ public class TokenService {
       return JWT.create()
           .withIssuer("auth-right-dose")
           .withSubject(userEntity.getEmail())
-          .withClaim("userId", userEntity.getUserId())
+          .withClaim("id", userEntity.getId())
           .withExpiresAt(genExpirationDate())
           .sign(algorithm);
     } catch (JWTCreationException exception) {
