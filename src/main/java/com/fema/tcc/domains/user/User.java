@@ -1,11 +1,8 @@
 package com.fema.tcc.domains.user;
 
 import com.fema.tcc.domains.enums.UserRole;
-import com.fema.tcc.domains.medicine.Medicine;
-import lombok.*;
-
 import java.util.Date;
-import java.util.List;
+import lombok.*;
 
 @Getter
 @Setter

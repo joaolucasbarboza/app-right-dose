@@ -40,13 +40,13 @@ public class NotificationUseCase {
           Long notificationId = notification.getId();
           String fcmToken = notification.getPrescription().getMedicine().getUser().getFcmToken();
 
-            if (fcmToken == null || fcmToken.isEmpty()) {
-                log.warn(
-                    "[JOB: NotificationJob] - SKIP - No FCM token found for notification ID: {}",
-                    notificationId);
+          if (fcmToken == null || fcmToken.isEmpty()) {
+            log.warn(
+                "[JOB: NotificationJob] - SKIP - No FCM token found for notification ID: {}",
+                notificationId);
 
-                throw new RuntimeException("No FCM token found for notification ID: " + notificationId);
-            }
+            throw new RuntimeException("No FCM token found for notification ID: " + notificationId);
+          }
 
           String medicineName = notification.getPrescription().getMedicine().getName();
           String messageToSend =

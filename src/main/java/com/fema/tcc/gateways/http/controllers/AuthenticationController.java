@@ -55,8 +55,7 @@ public class AuthenticationController {
     User request = authJsonMapper.registerRequestToDomain(registerRequestJson);
     User execute = registerUseCase.execute(request);
 
-    RegisterResponseJson registerResponseJson =
-        authJsonMapper.domainToRegisterResponse(execute);
+    RegisterResponseJson registerResponseJson = authJsonMapper.domainToRegisterResponse(execute);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(registerResponseJson);
   }

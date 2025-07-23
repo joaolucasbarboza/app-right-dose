@@ -39,7 +39,7 @@ public class SendNotificationFirebaseUseCase {
       String response = firebaseMessaging.send(firebaseMessage);
       log.info("Resposta do Firebase: {}", response);
       updateStatusNotificationUseCase.execute(payloadJson.notificationId());
- log.info("[JOB: SendNotificationFirebaseUseCase] - END - Notification sent successfully");
+      log.info("[JOB: SendNotificationFirebaseUseCase] - END - Notification sent successfully");
     } catch (Exception e) {
       throw new RuntimeException("Failed to send notification", e);
     }

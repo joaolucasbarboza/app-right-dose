@@ -5,8 +5,6 @@ import com.fema.tcc.domains.user.User;
 import com.fema.tcc.gateways.MedicineGateway;
 import com.fema.tcc.gateways.http.exceptions.NotFoundException;
 import com.fema.tcc.usecases.user.UserUseCase;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

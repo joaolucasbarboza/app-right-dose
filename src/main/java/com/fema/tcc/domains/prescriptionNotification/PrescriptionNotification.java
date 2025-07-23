@@ -3,7 +3,6 @@ package com.fema.tcc.domains.prescriptionNotification;
 import com.fema.tcc.domains.enums.Status;
 import com.fema.tcc.domains.prescription.Prescription;
 import java.time.LocalDateTime;
-
 import lombok.*;
 
 @Builder

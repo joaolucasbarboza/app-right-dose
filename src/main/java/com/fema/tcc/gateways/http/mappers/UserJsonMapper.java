@@ -4,7 +4,6 @@ import com.fema.tcc.domains.user.User;
 import com.fema.tcc.gateways.http.jsons.UserResponseJson;
 import com.fema.tcc.gateways.postgresql.entity.UserEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserJsonMapper {

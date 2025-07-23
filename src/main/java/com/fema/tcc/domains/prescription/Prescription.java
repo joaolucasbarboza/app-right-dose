@@ -3,9 +3,10 @@ package com.fema.tcc.domains.prescription;
 import com.fema.tcc.domains.enums.DosageUnit;
 import com.fema.tcc.domains.enums.Frequency;
 import com.fema.tcc.domains.medicine.Medicine;
+import com.fema.tcc.domains.prescriptionNotification.PrescriptionNotification;
 import com.fema.tcc.domains.user.User;
 import java.time.LocalDateTime;
-
+import java.util.List;
 import lombok.*;
 
 @AllArgsConstructor
@@ -31,6 +32,8 @@ public class Prescription {
 
   private boolean wantsNotifications;
   private String instructions;
+
+  private List<PrescriptionNotification> notifications;
 
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;

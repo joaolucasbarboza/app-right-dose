@@ -49,4 +49,11 @@ public class PrescriptionNotificationImpl implements PrescriptionNotificationGat
         .map(jsonMapper::entityToDomain)
         .toList();
   }
+
+  @Override
+  public List<PrescriptionNotification> findAllByPrescriptionId(Long medicineId) {
+    List<PrescriptionNotificationEntity> entities = repository.findAllByPrescriptionId(medicineId);
+
+    return entities.stream().map(jsonMapper::entityToDomain).toList();
+  }
 }

@@ -8,7 +8,6 @@ import com.fema.tcc.gateways.http.mappers.UserJsonMapper;
 import com.fema.tcc.gateways.postgresql.entity.MedicineEntity;
 import com.fema.tcc.gateways.postgresql.entity.UserEntity;
 import com.fema.tcc.gateways.postgresql.repository.MedicineRepository;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

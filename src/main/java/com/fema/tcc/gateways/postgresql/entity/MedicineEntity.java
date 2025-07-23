@@ -3,7 +3,6 @@ package com.fema.tcc.gateways.postgresql.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-
 import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 

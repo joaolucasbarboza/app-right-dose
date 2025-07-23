@@ -2,7 +2,6 @@ package com.fema.tcc.domains.medicine;
 
 import com.fema.tcc.domains.user.User;
 import java.time.LocalDateTime;
-
 import lombok.*;
 
 @Getter

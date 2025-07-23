@@ -11,7 +11,8 @@ public interface PrescriptionNotificationJsonMapper {
 
   PrescriptionNotificationEntity domainToEntity(PrescriptionNotification prescriptionNotification);
 
-  List<PrescriptionNotificationEntity> domainToEntityList(List<PrescriptionNotification> prescriptionNotifications);
+  List<PrescriptionNotificationEntity> domainToEntityList(
+      List<PrescriptionNotification> prescriptionNotifications);
 
   PrescriptionNotification entityToDomain(PrescriptionNotificationEntity entity);
 }

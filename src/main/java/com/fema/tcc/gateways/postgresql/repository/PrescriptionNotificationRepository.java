@@ -16,4 +16,6 @@ public interface PrescriptionNotificationRepository
           + "AND n.status = 'PENDING'")
   List<PrescriptionNotificationEntity> findAllReadyToNotify(
       @Param("now") LocalDateTime now, @Param("limitTime") LocalDateTime limitTime);
+
+  List<PrescriptionNotificationEntity> findAllByPrescriptionId(Long prescriptionId);
 }
