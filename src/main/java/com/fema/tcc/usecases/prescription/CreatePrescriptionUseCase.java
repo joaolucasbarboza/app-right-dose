@@ -22,18 +22,27 @@ public class CreatePrescriptionUseCase {
   private final MedicineGateway medicineGateway;
   private final PrescriptionGateway prescriptionGateway;
 
-  public Prescription execute(Prescription request) {
+  public Prescription execute(Prescription request, Integer medicineId) {
     User user = userUseCase.getUser();
 
     return medicineGateway
-        .findById(request.getMedicine().getId())
+        .findById(medicineId)
         .map(
             medicine -> {
               if (!medicine.getUser().getId().equals(user.getId())) {
                 throw new SecurityException("User is not authorized to perform this action");
               }
 
-              LocalDateTime endDate = calculateEndDate.execute(request);
+                LocalDateTime endDate = null;
+
+              if (!request.isIndefinite()) {
+                  if (request.getTotalOccurrences() == null) {
+                    throw new IllegalArgumentException(
+                        "Total occurrences must be specified for non-indefinite prescriptions");
+                  } else {
+                    endDate = calculateEndDate.execute(request);
+                  }
+              }
 
               Prescription prescription =
                   Prescription.builder()
@@ -43,7 +52,8 @@ public class CreatePrescriptionUseCase {
                       .dosageUnit(request.getDosageUnit())
                       .frequency(request.getFrequency())
                       .uomFrequency(request.getUomFrequency())
-                      .totalDays(request.getTotalDays())
+                      .indefinite(request.isIndefinite())
+                      .totalOccurrences(request.getTotalOccurrences())
                       .startDate(request.getStartDate())
                       .endDate(endDate)
                       .wantsNotifications(request.isWantsNotifications())
@@ -54,7 +64,7 @@ public class CreatePrescriptionUseCase {
               Prescription prescriptionSaved = prescriptionGateway.save(prescription);
 
               if (request.isWantsNotifications()) {
-                generateNotificationsFlow.execute(prescriptionSaved);
+                generateNotificationsFlow.execute(prescriptionSaved, 2);
               }
 
               return prescriptionSaved;

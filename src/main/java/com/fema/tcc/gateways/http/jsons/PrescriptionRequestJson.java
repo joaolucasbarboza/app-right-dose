@@ -11,7 +11,8 @@ public record PrescriptionRequestJson(
     @NotNull DosageUnit dosageUnit,
     @NotNull int frequency,
     @NotNull Frequency uomFrequency,
-    @NotNull int totalDays,
+    @NotNull boolean indefinite,
+    Integer totalOccurrences,
     @NotNull LocalDateTime startDate,
     @NotNull boolean wantsNotifications,
     @NotNull String instructions) {}

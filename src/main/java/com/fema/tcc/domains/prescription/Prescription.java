@@ -25,8 +25,9 @@ public class Prescription {
 
   private int frequency;
   private Frequency uomFrequency;
+  private boolean indefinite;
 
-  private int totalDays;
+  private Integer totalOccurrences;
   private LocalDateTime startDate;
   private LocalDateTime endDate;
 
@@ -43,7 +44,7 @@ public class Prescription {
     this.setDosageUnit(source.getDosageUnit());
     this.setFrequency(source.getFrequency());
     this.setUomFrequency(source.getUomFrequency());
-    this.setTotalDays(source.getTotalDays());
+    this.setTotalOccurrences(source.totalOccurrences);
     this.setStartDate(source.getStartDate());
     this.setEndDate(source.getEndDate());
     this.setInstructions(source.getInstructions());

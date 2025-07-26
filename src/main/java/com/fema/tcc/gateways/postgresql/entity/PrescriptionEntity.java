@@ -50,16 +50,17 @@ public class PrescriptionEntity {
   @NotNull
   private Frequency uomFrequency;
 
-  @Column(name = "total_Days")
   @NotNull
-  private int totalDays;
+  private boolean indefinite;
+
+  @Column(name = "total_occurrences")
+  private int totalOccurrences;
 
   @Column(name = "start_date")
   @NotNull
   private LocalDateTime startDate;
 
   @Column(name = "end_date")
-  @NotNull
   private LocalDateTime endDate;
 
   @Column(name = "wants_notifications")
