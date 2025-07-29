@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "prescription")
+@RequestMapping(value = "prescriptions")
 @AllArgsConstructor
 public class PrescriptionController {
 
