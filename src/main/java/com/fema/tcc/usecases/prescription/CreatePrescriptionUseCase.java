@@ -44,22 +44,7 @@ public class CreatePrescriptionUseCase {
                   }
               }
 
-              Prescription prescription =
-                  Prescription.builder()
-                      .medicine(medicine)
-                      .user(medicine.getUser())
-                      .dosageAmount(request.getDosageAmount())
-                      .dosageUnit(request.getDosageUnit())
-                      .frequency(request.getFrequency())
-                      .uomFrequency(request.getUomFrequency())
-                      .indefinite(request.isIndefinite())
-                      .totalOccurrences(request.getTotalOccurrences())
-                      .startDate(request.getStartDate())
-                      .endDate(endDate)
-                      .wantsNotifications(request.isWantsNotifications())
-                      .instructions(request.getInstructions())
-                      .createdAt(LocalDateTime.now())
-                      .build();
+              Prescription prescription = buildPrescription(request, user, endDate);
 
               Prescription prescriptionSaved = prescriptionGateway.save(prescription);
 
@@ -70,5 +55,23 @@ public class CreatePrescriptionUseCase {
               return prescriptionSaved;
             })
         .orElseThrow(() -> new NotFoundException("Medicine not found"));
+  }
+
+  private Prescription buildPrescription(Prescription request, User user, LocalDateTime endDate) {
+    return Prescription.builder()
+        .medicine(request.getMedicine())
+        .user(user)
+        .dosageAmount(request.getDosageAmount())
+        .dosageUnit(request.getDosageUnit())
+        .frequency(request.getFrequency())
+        .uomFrequency(request.getUomFrequency())
+        .indefinite(request.isIndefinite())
+        .totalOccurrences(request.getTotalOccurrences())
+        .startDate(request.getStartDate())
+        .endDate(endDate)
+        .wantsNotifications(request.isWantsNotifications())
+        .instructions(request.getInstructions())
+        .createdAt(LocalDateTime.now())
+        .build();
   }
 }
