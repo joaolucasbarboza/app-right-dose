@@ -8,6 +8,8 @@ public interface PrescriptionNotificationGateway {
 
   void saveAll(List<PrescriptionNotification> prescriptions);
 
+  PrescriptionNotification save(PrescriptionNotification prescriptionNotification);
+
   void update(PrescriptionNotification prescriptionNotification);
 
   PrescriptionNotification findById(Long id);

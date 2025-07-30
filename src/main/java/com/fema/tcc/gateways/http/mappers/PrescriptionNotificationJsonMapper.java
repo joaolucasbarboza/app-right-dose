@@ -1,6 +1,8 @@
 package com.fema.tcc.gateways.http.mappers;
 
 import com.fema.tcc.domains.prescriptionNotification.PrescriptionNotification;
+import com.fema.tcc.gateways.http.jsons.PrescriptionNotificationResponseJson;
+import com.fema.tcc.gateways.http.jsons.PrescriptionUpdateNotificationRequestJson;
 import com.fema.tcc.gateways.postgresql.entity.PrescriptionNotificationEntity;
 import org.mapstruct.Mapper;
 
@@ -15,4 +17,8 @@ public interface PrescriptionNotificationJsonMapper {
       List<PrescriptionNotification> prescriptionNotifications);
 
   PrescriptionNotification entityToDomain(PrescriptionNotificationEntity entity);
+
+  PrescriptionNotification requestUpdateStatusToDomain(PrescriptionUpdateNotificationRequestJson request);
+
+  PrescriptionNotificationResponseJson domainToResponse(PrescriptionNotification prescriptionNotification);
 }

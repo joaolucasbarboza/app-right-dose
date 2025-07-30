@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "prescription")
+@RequestMapping(value = "prescriptions")
 @AllArgsConstructor
 public class PrescriptionController {
 
@@ -73,12 +73,12 @@ public class PrescriptionController {
   @Operation(
       summary = "Editar prescrição.",
       description = "Editar uma prescrição especifica do usuário.")
-  @PutMapping(produces = "application/json;charset=UTF-8")
-  public ResponseEntity<PrescriptionResponseJson> update(
-      @RequestParam Long id, @RequestBody @Valid PrescriptionRequestJson requestJson) {
+  @PutMapping(value = "/{id}", produces = "application/json;charset=UTF-8")
+  public ResponseEntity<PrescriptionResponseJson> updatePrescription(
+      @PathVariable Long id, @RequestBody @Valid PrescriptionRequestJson requestJson) {
 
-    Prescription prescription =
-        updateUseCase.execute(id, prescriptionJsonMapper.requestToDomain(requestJson));
+    Prescription request = prescriptionJsonMapper.requestToDomain(requestJson);
+    Prescription prescription = updateUseCase.execute(id, request);
     PrescriptionResponseJson responseJson = prescriptionJsonMapper.domainToResponse(prescription);
 
     return ResponseEntity.status(HttpStatus.OK).body(responseJson);

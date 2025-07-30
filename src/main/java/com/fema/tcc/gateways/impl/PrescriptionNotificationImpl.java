@@ -27,6 +27,13 @@ public class PrescriptionNotificationImpl implements PrescriptionNotificationGat
   }
 
   @Override
+  public PrescriptionNotification save(PrescriptionNotification prescriptionNotification) {
+    PrescriptionNotificationEntity entity = jsonMapper.domainToEntity(prescriptionNotification);
+    repository.save(entity);
+    return jsonMapper.entityToDomain(entity);
+  }
+
+  @Override
   public void update(PrescriptionNotification prescriptionNotification) {
     PrescriptionNotificationEntity entity = jsonMapper.domainToEntity(prescriptionNotification);
     repository.save(entity);
