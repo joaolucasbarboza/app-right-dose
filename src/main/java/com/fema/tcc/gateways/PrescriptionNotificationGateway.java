@@ -17,4 +17,6 @@ public interface PrescriptionNotificationGateway {
   List<PrescriptionNotification> findAllReadyToNotify(LocalDateTime now, LocalDateTime limitTime);
 
   List<PrescriptionNotification> findAllByPrescriptionId(Long prescriptionId);
+
+  void deleteById(Long id);
 }

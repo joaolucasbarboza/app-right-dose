@@ -63,4 +63,9 @@ public class PrescriptionNotificationImpl implements PrescriptionNotificationGat
 
     return entities.stream().map(jsonMapper::entityToDomain).toList();
   }
+
+  @Override
+  public void deleteById(Long id) {
+    repository.deleteById(id);
+  }
 }

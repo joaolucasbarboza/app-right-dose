@@ -1,8 +1,10 @@
 package com.fema.tcc.usecases.prescriptionNotification;
 
+import com.fema.tcc.domains.enums.Status;
 import com.fema.tcc.domains.prescription.Prescription;
 import com.fema.tcc.domains.prescriptionNotification.PrescriptionNotification;
 import com.fema.tcc.gateways.PrescriptionNotificationGateway;
+import com.fema.tcc.usecases.prescriptionNotificationHistory.SavePrescriptionNotificationHistoryUseCase;
 import com.fema.tcc.usecases.user.UserUseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +17,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UpdateStatusUseCase {
 
+    private final DeleteNotificationUseCase deleteNotificationUseCase;
+    private final SavePrescriptionNotificationHistoryUseCase savePrescriptionNotificationHistoryUseCase;
     private final PrescriptionNotificationGateway notificationGateway;
     private final UserUseCase userUseCase;
 
-    public PrescriptionNotification execute(Long prescriptionId, Long notificationId, PrescriptionNotification updateRequest) {
+    public PrescriptionNotification execute(
+            Long prescriptionId, Long notificationId, PrescriptionNotification updateRequest) {
+
         Integer currentUserId = userUseCase.getCurrentUser();
 
         PrescriptionNotification notification = notificationGateway.findById(notificationId);
@@ -38,9 +44,16 @@ public class UpdateStatusUseCase {
                     "O status da notificação já está definido como " + updateRequest.getStatus() + ".");
         }
 
-        notification.setStatus(updateRequest.getStatus());
-        notification.setUpdatedAt(LocalDateTime.now());
+        if (notification.getStatus() != Status.CONFIRMED
+                && updateRequest.getStatus().equals(Status.CONFIRMED)) {
 
-        return notificationGateway.save(notification);
+            notification.setStatus(updateRequest.getStatus());
+            notification.setUpdatedAt(LocalDateTime.now());
+
+            savePrescriptionNotificationHistoryUseCase.execute(notification);
+            deleteNotificationUseCase.execute(notificationId);
+        }
+
+        return notification;
     }
 }
