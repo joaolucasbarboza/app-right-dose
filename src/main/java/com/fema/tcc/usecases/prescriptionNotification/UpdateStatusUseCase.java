@@ -1,7 +1,6 @@
 package com.fema.tcc.usecases.prescriptionNotification;
 
 import com.fema.tcc.domains.enums.Status;
-import com.fema.tcc.domains.prescription.Prescription;
 import com.fema.tcc.domains.prescriptionNotification.PrescriptionNotification;
 import com.fema.tcc.gateways.PrescriptionNotificationGateway;
 import com.fema.tcc.usecases.prescriptionNotificationHistory.SavePrescriptionNotificationHistoryUseCase;
@@ -22,19 +21,13 @@ public class UpdateStatusUseCase {
     private final PrescriptionNotificationGateway notificationGateway;
     private final UserUseCase userUseCase;
 
-    public PrescriptionNotification execute(
-            Long prescriptionId, Long notificationId, PrescriptionNotification updateRequest) {
+    public PrescriptionNotification execute(Long notificationId, PrescriptionNotification updateRequest) {
 
         Integer currentUserId = userUseCase.getCurrentUser();
 
         PrescriptionNotification notification = notificationGateway.findById(notificationId);
 
-        Prescription prescription = notification.getPrescription();
-        if (!prescription.getId().equals(prescriptionId)) {
-            throw new IllegalArgumentException("A notificação não pertence à prescrição informada.");
-        }
-
-        if (!prescription.getUser().getId().equals(currentUserId)) {
+        if (!notification.getPrescription().getUser().getId().equals(currentUserId)) {
             throw new IllegalArgumentException("Usuário não autorizado para alterar essa notificação.");
         }
 

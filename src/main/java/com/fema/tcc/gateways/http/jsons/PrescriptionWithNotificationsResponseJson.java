@@ -13,7 +13,7 @@ public record PrescriptionWithNotificationsResponseJson(
     DosageUnit dosageUnit,
     int frequency,
     Frequency uomFrequency,
-    int totalDays,
+    int totalOccurrences,
     LocalDateTime startDate,
     LocalDateTime endDate,
     boolean wantsNotifications,

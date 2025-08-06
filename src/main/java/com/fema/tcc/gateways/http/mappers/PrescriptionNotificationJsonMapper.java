@@ -5,6 +5,7 @@ import com.fema.tcc.gateways.http.jsons.PrescriptionNotificationResponseJson;
 import com.fema.tcc.gateways.http.jsons.PrescriptionUpdateNotificationRequestJson;
 import com.fema.tcc.gateways.postgresql.entity.PrescriptionNotificationEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -20,5 +21,6 @@ public interface PrescriptionNotificationJsonMapper {
 
   PrescriptionNotification requestUpdateStatusToDomain(PrescriptionUpdateNotificationRequestJson request);
 
+  @Mapping(target = "prescriptionId", source = "prescription.id")
   PrescriptionNotificationResponseJson domainToResponse(PrescriptionNotification prescriptionNotification);
 }

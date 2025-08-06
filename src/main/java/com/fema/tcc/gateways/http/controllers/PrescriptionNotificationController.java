@@ -19,13 +19,13 @@ public class PrescriptionNotificationController {
     private final PrescriptionNotificationJsonMapper jsonMapper;
 
     @Operation(summary = "Alterar o status da notificação de uma prescrição")
-    @PatchMapping("/updateStatus")
+    @PatchMapping("/update-status")
     public ResponseEntity<PrescriptionNotificationResponseJson> changeNotificationStatus(
             @RequestBody PrescriptionUpdateNotificationRequestJson request) {
 
         PrescriptionNotification domain = jsonMapper.requestUpdateStatusToDomain(request);
         PrescriptionNotification responseDomain =
-                updateStatusUseCase.execute(request.prescriptionId(), request.notificationId(), domain);
+                updateStatusUseCase.execute(request.notificationId(), domain);
         PrescriptionNotificationResponseJson responseJson = jsonMapper.domainToResponse(responseDomain);
 
         return ResponseEntity.ok(responseJson);

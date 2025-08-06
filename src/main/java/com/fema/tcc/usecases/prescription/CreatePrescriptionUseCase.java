@@ -1,5 +1,6 @@
 package com.fema.tcc.usecases.prescription;
 
+import com.fema.tcc.domains.medicine.Medicine;
 import com.fema.tcc.domains.prescription.Prescription;
 import com.fema.tcc.domains.user.User;
 import com.fema.tcc.gateways.MedicineGateway;
@@ -44,7 +45,7 @@ public class CreatePrescriptionUseCase {
                   }
               }
 
-              Prescription prescription = buildPrescription(request, user, endDate);
+              Prescription prescription = buildPrescription(request, medicine, user, endDate);
 
               Prescription prescriptionSaved = prescriptionGateway.save(prescription);
 
@@ -57,9 +58,9 @@ public class CreatePrescriptionUseCase {
         .orElseThrow(() -> new NotFoundException("Medicine not found"));
   }
 
-  private Prescription buildPrescription(Prescription request, User user, LocalDateTime endDate) {
+  private Prescription buildPrescription(Prescription request, Medicine medicine, User user, LocalDateTime endDate) {
     return Prescription.builder()
-        .medicine(request.getMedicine())
+        .medicine(medicine)
         .user(user)
         .dosageAmount(request.getDosageAmount())
         .dosageUnit(request.getDosageUnit())
