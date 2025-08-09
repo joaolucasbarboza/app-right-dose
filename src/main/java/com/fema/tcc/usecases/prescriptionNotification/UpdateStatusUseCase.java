@@ -5,48 +5,51 @@ import com.fema.tcc.domains.prescriptionNotification.PrescriptionNotification;
 import com.fema.tcc.gateways.PrescriptionNotificationGateway;
 import com.fema.tcc.usecases.prescriptionNotificationHistory.SavePrescriptionNotificationHistoryUseCase;
 import com.fema.tcc.usecases.user.UserUseCase;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Slf4j
 @Service
 @AllArgsConstructor
 public class UpdateStatusUseCase {
 
-    private final DeleteNotificationUseCase deleteNotificationUseCase;
-    private final SavePrescriptionNotificationHistoryUseCase savePrescriptionNotificationHistoryUseCase;
-    private final PrescriptionNotificationGateway notificationGateway;
-    private final UserUseCase userUseCase;
+  private final DeleteNotificationUseCase deleteNotificationUseCase;
+  private final SavePrescriptionNotificationHistoryUseCase
+      savePrescriptionNotificationHistoryUseCase;
+  private final PrescriptionNotificationGateway notificationGateway;
+  private final GenerateNotificationsFlow generateNotificationsFlow;
+  private final UserUseCase userUseCase;
 
-    public PrescriptionNotification execute(Long notificationId, PrescriptionNotification updateRequest) {
+  public PrescriptionNotification execute(
+      Long notificationId, PrescriptionNotification updateRequest) {
 
-        Integer currentUserId = userUseCase.getCurrentUser();
+    Integer currentUserId = userUseCase.getCurrentUser();
 
-        PrescriptionNotification notification = notificationGateway.findById(notificationId);
+    PrescriptionNotification notification = notificationGateway.findById(notificationId);
 
-        if (!notification.getPrescription().getUser().getId().equals(currentUserId)) {
-            throw new IllegalArgumentException("Usuário não autorizado para alterar essa notificação.");
-        }
-
-        if (notification.getStatus().equals(updateRequest.getStatus())) {
-            log.info("O status da notificação já está definido como {}", updateRequest.getStatus());
-            throw new IllegalArgumentException(
-                    "O status da notificação já está definido como " + updateRequest.getStatus() + ".");
-        }
-
-        if (notification.getStatus() != Status.CONFIRMED
-                && updateRequest.getStatus().equals(Status.CONFIRMED)) {
-
-            notification.setStatus(updateRequest.getStatus());
-            notification.setUpdatedAt(LocalDateTime.now());
-
-            savePrescriptionNotificationHistoryUseCase.execute(notification);
-            deleteNotificationUseCase.execute(notificationId);
-        }
-
-        return notification;
+    if (!notification.getPrescription().getUser().getId().equals(currentUserId)) {
+      throw new IllegalArgumentException("Usuário não autorizado para alterar essa notificação.");
     }
+
+    if (notification.getStatus().equals(updateRequest.getStatus())) {
+      log.info("O status da notificação já está definido como {}", updateRequest.getStatus());
+      throw new IllegalArgumentException(
+          "O status da notificação já está definido como " + updateRequest.getStatus() + ".");
+    }
+
+    if (notification.getStatus() != Status.CONFIRMED
+        && updateRequest.getStatus().equals(Status.CONFIRMED)) {
+
+      notification.setStatus(updateRequest.getStatus());
+      notification.setUpdatedAt(LocalDateTime.now());
+
+      savePrescriptionNotificationHistoryUseCase.execute(notification);
+      generateNotificationsFlow.execute(notification.getPrescription(), 1);
+      deleteNotificationUseCase.execute(notificationId);
+    }
+
+    return notification;
+  }
 }

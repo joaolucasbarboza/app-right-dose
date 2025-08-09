@@ -4,5 +4,5 @@ import com.fema.tcc.domains.prescriptionNotificationHistory.PrescriptionNotifica
 
 public interface PrescriptionNotificationHistoryGateway {
 
-    void save(PrescriptionNotificationHistory prescriptionNotificationHistory);
+  void save(PrescriptionNotificationHistory prescriptionNotificationHistory);
 }

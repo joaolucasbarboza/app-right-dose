@@ -10,14 +10,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class PrescriptionNotificationHistoryGatewayImpl implements PrescriptionNotificationHistoryGateway {
+public class PrescriptionNotificationHistoryGatewayImpl
+    implements PrescriptionNotificationHistoryGateway {
 
-    private final PrescriptionNotificationHistoryRepository repository;
-    private final PrescriptionNotificationHistoryJsonMapper jsonMapper;
+  private final PrescriptionNotificationHistoryRepository repository;
+  private final PrescriptionNotificationHistoryJsonMapper jsonMapper;
 
-    @Override
-    public void save(PrescriptionNotificationHistory notificationHistory) {
-        PrescriptionNotificationHistoryEntity entity = jsonMapper.domainToEntity(notificationHistory);
-        repository.save(entity);
-    }
+  @Override
+  public void save(PrescriptionNotificationHistory notificationHistory) {
+    PrescriptionNotificationHistoryEntity entity = jsonMapper.domainToEntity(notificationHistory);
+    repository.save(entity);
+  }
 }

@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class PrescriptionNotificationController {
 
-    private final UpdateStatusUseCase updateStatusUseCase;
-    private final PrescriptionNotificationJsonMapper jsonMapper;
+  private final UpdateStatusUseCase updateStatusUseCase;
+  private final PrescriptionNotificationJsonMapper jsonMapper;
 
-    @Operation(summary = "Alterar o status da notificação de uma prescrição")
-    @PatchMapping("/update-status")
-    public ResponseEntity<PrescriptionNotificationResponseJson> changeNotificationStatus(
-            @RequestBody PrescriptionUpdateNotificationRequestJson request) {
+  @Operation(summary = "Alterar o status da notificação de uma prescrição")
+  @PatchMapping("/update-status")
+  public ResponseEntity<PrescriptionNotificationResponseJson> changeNotificationStatus(
+      @RequestBody PrescriptionUpdateNotificationRequestJson request) {
 
-        PrescriptionNotification domain = jsonMapper.requestUpdateStatusToDomain(request);
-        PrescriptionNotification responseDomain =
-                updateStatusUseCase.execute(request.notificationId(), domain);
-        PrescriptionNotificationResponseJson responseJson = jsonMapper.domainToResponse(responseDomain);
+    PrescriptionNotification domain = jsonMapper.requestUpdateStatusToDomain(request);
+    PrescriptionNotification responseDomain =
+        updateStatusUseCase.execute(request.notificationId(), domain);
+    PrescriptionNotificationResponseJson responseJson = jsonMapper.domainToResponse(responseDomain);
 
-        return ResponseEntity.ok(responseJson);
-    }
+    return ResponseEntity.ok(responseJson);
+  }
 }

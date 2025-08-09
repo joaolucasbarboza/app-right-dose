@@ -9,6 +9,4 @@ public record PrescriptionNotificationResponseJson(
     Status status,
     LocalDateTime createdAt,
     LocalDateTime updatedAt,
-    Long prescriptionId
-) {
-}
+    Long prescriptionId) {}

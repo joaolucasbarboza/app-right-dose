@@ -14,6 +14,7 @@ public record PrescriptionWithNotificationsResponseJson(
     int frequency,
     Frequency uomFrequency,
     int totalOccurrences,
+    boolean indefinite,
     LocalDateTime startDate,
     LocalDateTime endDate,
     boolean wantsNotifications,

@@ -34,15 +34,15 @@ public class CreatePrescriptionUseCase {
                 throw new SecurityException("User is not authorized to perform this action");
               }
 
-                LocalDateTime endDate = null;
+              LocalDateTime endDate = null;
 
               if (!request.isIndefinite()) {
-                  if (request.getTotalOccurrences() == null) {
-                    throw new IllegalArgumentException(
-                        "Total occurrences must be specified for non-indefinite prescriptions");
-                  } else {
-                    endDate = calculateEndDate.execute(request);
-                  }
+                if (request.getTotalOccurrences() == null) {
+                  throw new IllegalArgumentException(
+                      "Total occurrences must be specified for non-indefinite prescriptions");
+                } else {
+                  endDate = calculateEndDate.execute(request);
+                }
               }
 
               Prescription prescription = buildPrescription(request, medicine, user, endDate);
@@ -58,7 +58,8 @@ public class CreatePrescriptionUseCase {
         .orElseThrow(() -> new NotFoundException("Medicine not found"));
   }
 
-  private Prescription buildPrescription(Prescription request, Medicine medicine, User user, LocalDateTime endDate) {
+  private Prescription buildPrescription(
+      Prescription request, Medicine medicine, User user, LocalDateTime endDate) {
     return Prescription.builder()
         .medicine(medicine)
         .user(user)

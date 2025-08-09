@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class DeleteNotificationUseCase {
 
-    private final PrescriptionNotificationGateway gateway;
+  private final PrescriptionNotificationGateway gateway;
 
-    public void execute(Long notificationId) {
-      gateway.deleteById(notificationId);
-    }
+  public void execute(Long notificationId) {
+    gateway.deleteById(notificationId);
+  }
 }

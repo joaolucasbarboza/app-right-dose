@@ -7,6 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface PrescriptionNotificationHistoryJsonMapper {
 
-    PrescriptionNotificationHistoryEntity domainToEntity(
-            PrescriptionNotificationHistory prescriptionNotificationHistory);
+  PrescriptionNotificationHistoryEntity domainToEntity(
+      PrescriptionNotificationHistory prescriptionNotificationHistory);
 }

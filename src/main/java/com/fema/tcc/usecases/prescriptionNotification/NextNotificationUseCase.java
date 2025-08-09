@@ -1,29 +1,44 @@
 package com.fema.tcc.usecases.prescriptionNotification;
 
-import com.fema.tcc.domains.prescription.Prescription;
-import org.springframework.stereotype.Component;
+import static com.fema.tcc.utils.NotificationIntervalUtil.calculateInterval;
 
+import com.fema.tcc.domains.prescription.Prescription;
+import com.fema.tcc.domains.prescriptionNotification.PrescriptionNotification;
+import com.fema.tcc.gateways.PrescriptionNotificationGateway;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.fema.tcc.utils.NotificationIntervalUtil.calculateInterval;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class NextNotificationUseCase {
 
-    public List<LocalDateTime> execute(Prescription prescription, int quantityGenerate) {
-        List<LocalDateTime> times = new ArrayList<>();
+  final PrescriptionNotificationGateway prescriptionNotificationGateway;
 
-        LocalDateTime current = LocalDateTime.now();
-        Duration interval = calculateInterval(prescription);
+  public List<LocalDateTime> execute(Prescription prescription, int quantityGenerate) {
+    List<LocalDateTime> times = new ArrayList<>();
 
-        for (int i = 0; i < quantityGenerate; i++) {
-            current = current.plus(interval);
-            times.add(current);
-        }
+    List<PrescriptionNotification> notifications =
+        prescriptionNotificationGateway.findAllByPrescriptionId(prescription.getId());
 
-        return times;
+    LocalDateTime current;
+
+    if (notifications == null || notifications.isEmpty()) {
+      current = LocalDateTime.now();
+    } else {
+      current = notifications.getFirst().getNotificationTime();
     }
+
+    Duration interval = calculateInterval(prescription);
+
+    for (int i = 0; i < quantityGenerate; i++) {
+      current = current.plus(interval);
+      times.add(current);
+    }
+
+    return times;
+  }
 }
