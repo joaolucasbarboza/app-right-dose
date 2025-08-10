@@ -9,6 +9,8 @@ import com.fema.tcc.gateways.postgresql.repository.PrescriptionNotificationRepos
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -47,6 +49,19 @@ public class PrescriptionNotificationImpl implements PrescriptionNotificationGat
             .orElseThrow(
                 () -> new NotFoundException("Not found PrescriptionNotification with id: " + id));
     return jsonMapper.entityToDomain(entity);
+  }
+
+  @Override
+  public Page<PrescriptionNotification> findAllByUserId(Integer userId, Pageable pageable) {
+    LocalDateTime now = LocalDateTime.now();
+    Page<PrescriptionNotificationEntity> notificationEntities =
+        repository.findAllByUserId(userId, now, pageable);
+
+    if (notificationEntities.isEmpty()) {
+      throw new NotFoundException("No PrescriptionNotifications found.");
+    }
+
+    return notificationEntities.map(jsonMapper::entityToDomain);
   }
 
   @Override
