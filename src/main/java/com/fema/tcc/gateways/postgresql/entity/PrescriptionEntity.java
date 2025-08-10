@@ -50,8 +50,7 @@ public class PrescriptionEntity {
   @NotNull
   private Frequency uomFrequency;
 
-  @NotNull
-  private boolean indefinite;
+  @NotNull private boolean indefinite;
 
   @Column(name = "total_occurrences")
   private int totalOccurrences;

@@ -4,30 +4,54 @@ import com.fema.tcc.domains.prescriptionNotification.PrescriptionNotification;
 import com.fema.tcc.gateways.http.jsons.PrescriptionNotificationResponseJson;
 import com.fema.tcc.gateways.http.jsons.PrescriptionUpdateNotificationRequestJson;
 import com.fema.tcc.gateways.http.mappers.PrescriptionNotificationJsonMapper;
+import com.fema.tcc.usecases.prescriptionNotification.FindUpcomingNotificationsUseCase;
 import com.fema.tcc.usecases.prescriptionNotification.UpdateStatusUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("prescriptions-notifications")
+@RequestMapping("/prescriptions-notifications")
 @AllArgsConstructor
 public class PrescriptionNotificationController {
 
-    private final UpdateStatusUseCase updateStatusUseCase;
-    private final PrescriptionNotificationJsonMapper jsonMapper;
+  private final UpdateStatusUseCase updateStatusUseCase;
+  private final FindUpcomingNotificationsUseCase findUpcomingNotificationsUseCase;
+  private final PrescriptionNotificationJsonMapper jsonMapper;
 
-    @Operation(summary = "Alterar o status da notificação de uma prescrição")
-    @PatchMapping("/updateStatus")
-    public ResponseEntity<PrescriptionNotificationResponseJson> changeNotificationStatus(
-            @RequestBody PrescriptionUpdateNotificationRequestJson request) {
+  @Operation(summary = "Alterar o status da notificação de uma prescrição")
+  @PatchMapping("/update-status")
+  public ResponseEntity<PrescriptionNotificationResponseJson> changeNotificationStatus(
+      @RequestBody PrescriptionUpdateNotificationRequestJson request) {
 
-        PrescriptionNotification domain = jsonMapper.requestUpdateStatusToDomain(request);
-        PrescriptionNotification responseDomain =
-                updateStatusUseCase.execute(request.prescriptionId(), request.notificationId(), domain);
-        PrescriptionNotificationResponseJson responseJson = jsonMapper.domainToResponse(responseDomain);
+    PrescriptionNotification domain = jsonMapper.requestUpdateStatusToDomain(request);
+    PrescriptionNotification responseDomain =
+        updateStatusUseCase.execute(request.notificationId(), domain);
+    PrescriptionNotificationResponseJson responseJson = jsonMapper.domainToResponse(responseDomain);
 
-        return ResponseEntity.ok(responseJson);
-    }
+    return ResponseEntity.ok(responseJson);
+  }
+
+  @Operation(
+      summary = "Buscar notificações de prescrições futuras do usuário atual",
+      description =
+          "Retorna uma lista de notificações de prescrições que ainda não foram marcadas como tomadas pelo usuário atual.")
+  @GetMapping("/upcoming-notifications")
+  public ResponseEntity<Page<PrescriptionNotificationResponseJson>> upcomingNotifications(
+      @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
+
+    Page<PrescriptionNotification> notifications =
+        findUpcomingNotificationsUseCase.execute(page, size);
+
+    Page<PrescriptionNotificationResponseJson> responseJsons = notifications.map(jsonMapper::domainToResponse);
+
+    return ResponseEntity.ok().body(responseJsons);
+  }
 }

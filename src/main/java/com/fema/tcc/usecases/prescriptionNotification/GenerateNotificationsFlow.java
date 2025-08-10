@@ -25,16 +25,16 @@ public class GenerateNotificationsFlow {
     List<LocalDateTime> times = new ArrayList<>();
 
     if (prescription.isIndefinite()) {
-      List<LocalDateTime> nextNotifications = nextNotificationUseCase.execute(prescription, quantityGenerate);
+      List<LocalDateTime> nextNotifications =
+          nextNotificationUseCase.execute(prescription, quantityGenerate);
       times.addAll(nextNotifications);
     } else {
       List<LocalDateTime> notificationTimes =
-              generateNotificationTimes.execute(prescription, prescription.getEndDate());
+          generateNotificationTimes.execute(prescription, prescription.getEndDate());
       times.addAll(notificationTimes);
     }
 
-    List<PrescriptionNotification> notifications =
-        buildNotifications.execute(prescription, times);
+    List<PrescriptionNotification> notifications = buildNotifications.execute(prescription, times);
 
     gateway.saveAll(notifications);
   }

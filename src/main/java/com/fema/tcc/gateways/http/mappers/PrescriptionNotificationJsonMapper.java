@@ -4,9 +4,9 @@ import com.fema.tcc.domains.prescriptionNotification.PrescriptionNotification;
 import com.fema.tcc.gateways.http.jsons.PrescriptionNotificationResponseJson;
 import com.fema.tcc.gateways.http.jsons.PrescriptionUpdateNotificationRequestJson;
 import com.fema.tcc.gateways.postgresql.entity.PrescriptionNotificationEntity;
-import org.mapstruct.Mapper;
-
 import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = PrescriptionJsonMapper.class)
 public interface PrescriptionNotificationJsonMapper {
@@ -18,7 +18,10 @@ public interface PrescriptionNotificationJsonMapper {
 
   PrescriptionNotification entityToDomain(PrescriptionNotificationEntity entity);
 
-  PrescriptionNotification requestUpdateStatusToDomain(PrescriptionUpdateNotificationRequestJson request);
+  PrescriptionNotification requestUpdateStatusToDomain(
+      PrescriptionUpdateNotificationRequestJson request);
 
-  PrescriptionNotificationResponseJson domainToResponse(PrescriptionNotification prescriptionNotification);
+  @Mapping(target = "prescriptionId", source = "prescription.id")
+  PrescriptionNotificationResponseJson domainToResponse(
+      PrescriptionNotification prescriptionNotification);
 }
