@@ -12,13 +12,13 @@ import lombok.*;
 @Table(name = "disease")
 public class DiseaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "disease_id")
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "disease_id")
+  private Integer id;
 
-    @Column(unique = true)
-    private String code;
+  @Column(unique = true)
+  private String code;
 
-    private String description;
+  private String description;
 }

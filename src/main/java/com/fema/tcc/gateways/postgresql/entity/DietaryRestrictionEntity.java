@@ -12,12 +12,12 @@ import lombok.*;
 @Table(name = "dietary_restriction")
 public class DietaryRestrictionEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    @Column(unique = true)
-    private String code;
+  @Column(unique = true)
+  private String code;
 
-    private String description;
+  private String description;
 }
