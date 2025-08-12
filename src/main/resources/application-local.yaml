@@ -37,3 +37,6 @@ springdoc:
   api-docs:
     path: /api-docs
     enabled: true
+
+openai:
+  api-key: ${KEY_OPENAI}
