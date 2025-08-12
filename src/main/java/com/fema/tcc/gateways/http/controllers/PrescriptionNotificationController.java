@@ -50,7 +50,8 @@ public class PrescriptionNotificationController {
     Page<PrescriptionNotification> notifications =
         findUpcomingNotificationsUseCase.execute(page, size);
 
-    Page<PrescriptionNotificationResponseJson> responseJsons = notifications.map(jsonMapper::domainToResponse);
+    Page<PrescriptionNotificationResponseJson> responseJsons =
+        notifications.map(jsonMapper::domainToResponse);
 
     return ResponseEntity.ok().body(responseJsons);
   }
