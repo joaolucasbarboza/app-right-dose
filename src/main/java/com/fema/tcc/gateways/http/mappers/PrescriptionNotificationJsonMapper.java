@@ -21,7 +21,10 @@ public interface PrescriptionNotificationJsonMapper {
   PrescriptionNotification requestUpdateStatusToDomain(
       PrescriptionUpdateNotificationRequestJson request);
 
+  @Mapping(target = "medicineName", source = "prescription.medicine.name")
+  @Mapping(target = "dosageAmount", source = "prescription.dosageAmount")
   @Mapping(target = "prescriptionId", source = "prescription.id")
+  @Mapping(target = "dosageUnit", source = "prescription.dosageUnit")
   PrescriptionNotificationResponseJson domainToResponse(
       PrescriptionNotification prescriptionNotification);
 }

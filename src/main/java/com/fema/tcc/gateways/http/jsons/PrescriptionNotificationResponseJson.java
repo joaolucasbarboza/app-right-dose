@@ -1,5 +1,6 @@
 package com.fema.tcc.gateways.http.jsons;
 
+import com.fema.tcc.domains.enums.DosageUnit;
 import com.fema.tcc.domains.enums.Status;
 import java.time.LocalDateTime;
 
@@ -9,4 +10,7 @@ public record PrescriptionNotificationResponseJson(
     Status status,
     LocalDateTime createdAt,
     LocalDateTime updatedAt,
-    Long prescriptionId) {}
+    int prescriptionId,
+    String medicineName,
+    double dosageAmount,
+    DosageUnit dosageUnit) {}
