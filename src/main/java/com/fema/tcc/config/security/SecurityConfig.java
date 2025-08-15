@@ -37,6 +37,8 @@ public class SecurityConfig {
                     .permitAll()
                     .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
                     .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/generateAi")
+                    .permitAll()
                     .anyRequest()
                     .authenticated())
         .exceptionHandling(

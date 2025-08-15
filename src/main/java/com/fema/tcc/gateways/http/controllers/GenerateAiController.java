@@ -1,6 +1,7 @@
 package com.fema.tcc.gateways.http.controllers;
 
-import com.fema.tcc.usecases.recommendationAi.FoodRecommendationAIUseCase;
+import com.fema.tcc.gateways.http.jsons.FoodRecommendationResponseJson;
+import com.fema.tcc.usecases.recommendationAi.RecommendationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/generateAi")
 public class GenerateAiController {
 
-  private final FoodRecommendationAIUseCase foodRecommendationAIUseCase;
+  private final RecommendationService recommendationService;
 
   @GetMapping
-  public ResponseEntity<String> generateAi() {
-    String response = foodRecommendationAIUseCase.simpleResponse();
-
-    return ResponseEntity.ok(response);
+  public ResponseEntity<FoodRecommendationResponseJson> generateAiMvc() {
+    FoodRecommendationResponseJson body = recommendationService.execute().block();
+    return ResponseEntity.ok(body);
   }
 }
