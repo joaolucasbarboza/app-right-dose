@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/generateAi")
+@RequestMapping("/generate-ai")
 public class GenerateAiController {
 
   private final RecommendationService recommendationService;
 
-  @GetMapping
+  @GetMapping(produces = "application/json;charset=UTF-8")
   public ResponseEntity<FoodRecommendationResponseJson> generateAiMvc() {
     FoodRecommendationResponseJson body = recommendationService.execute().block();
     return ResponseEntity.ok(body);
