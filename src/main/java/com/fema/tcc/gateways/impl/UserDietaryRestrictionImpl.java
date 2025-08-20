@@ -27,4 +27,13 @@ public class UserDietaryRestrictionImpl implements UserDietaryRestrictionGateway
     UserDietaryRestrictionEntity entity = mapper.domainToEntity(userDietaryRestriction);
     repository.save(entity);
   }
+
+  @Override
+  public UserDietaryRestriction findById(Integer id) {
+    UserDietaryRestrictionEntity entity =
+        repository
+            .findById(id)
+            .orElseThrow(() -> new RuntimeException("User Dietary Restriction not found"));
+    return mapper.entityToDomain(entity);
+  }
 }

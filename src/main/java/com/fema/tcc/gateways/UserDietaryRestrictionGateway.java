@@ -8,4 +8,6 @@ public interface UserDietaryRestrictionGateway {
   List<UserDietaryRestriction> findAllByUserId(Integer userId);
 
   void save(UserDietaryRestriction userDietaryRestriction);
+
+  UserDietaryRestriction findById(Integer id);
 }
