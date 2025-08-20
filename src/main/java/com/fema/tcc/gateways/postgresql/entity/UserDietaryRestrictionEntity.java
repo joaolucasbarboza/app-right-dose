@@ -3,6 +3,8 @@ package com.fema.tcc.gateways.postgresql.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Getter
 @Setter
@@ -29,9 +31,11 @@ public class UserDietaryRestrictionEntity {
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "created_at")
+  @CreationTimestamp
   private LocalDateTime createdAt;
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "updated_at")
+  @UpdateTimestamp
   private LocalDateTime updatedAt;
 }

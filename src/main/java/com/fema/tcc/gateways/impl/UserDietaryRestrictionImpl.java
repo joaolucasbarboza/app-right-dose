@@ -21,4 +21,10 @@ public class UserDietaryRestrictionImpl implements UserDietaryRestrictionGateway
     List<UserDietaryRestrictionEntity> entities = repository.findAllByUser_Id(userId);
     return entities.stream().map(mapper::entityToDomain).toList();
   }
+
+  @Override
+  public void save(UserDietaryRestriction userDietaryRestriction) {
+    UserDietaryRestrictionEntity entity = mapper.domainToEntity(userDietaryRestriction);
+    repository.save(entity);
+  }
 }

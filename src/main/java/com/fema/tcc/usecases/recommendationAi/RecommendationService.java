@@ -33,8 +33,7 @@ public class RecommendationService {
   private static final ObjectMapper MAPPER =
       new ObjectMapper()
           .registerModule(new JavaTimeModule())
-          .configure(
-              DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+          .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
   public Mono<FoodRecommendationResponseJson> execute() {
     final List<Prescription> prescriptions =
@@ -68,9 +67,9 @@ public class RecommendationService {
       final String prescriptionsJson = MAPPER.writeValueAsString(details);
       final String restrictionsJson = MAPPER.writeValueAsString(restrictions);
 
-        final Map<String, Object> req = getStringObjectMap(prescriptionsJson, restrictionsJson);
+      final Map<String, Object> req = getStringObjectMap(prescriptionsJson, restrictionsJson);
 
-        return client.chat(req).flatMap(this::parseMinimal);
+      return client.chat(req).flatMap(this::parseMinimal);
 
     } catch (Exception e) {
       return Mono.error(
@@ -78,13 +77,14 @@ public class RecommendationService {
     }
   }
 
-    @NotNull
-    private static Map<String, Object> getStringObjectMap(String prescriptionsJson, String restrictionsJson) {
-        final String system =
-  """
+  @NotNull
+  private static Map<String, Object> getStringObjectMap(
+      String prescriptionsJson, String restrictionsJson) {
+    final String system =
+        """
   Você é uma assistente de saúde. Gere recomendações alimentares simples e aponte possíveis interações/alertas.
   NÃO faça diagnóstico nem prescrição.
-  
+
   Responda APENAS em JSON válido. Regras ESTRITAS de formato:
   - "meals": cada campo deve ser UMA STRING simples (sem arrays, sem objetos).
   - "alerts": ARRAY de STRINGS, onde cada item descreve um risco alimentar claramente, com base na doença do usuário, nas medicações e nas restrições alimentares.
@@ -95,16 +95,16 @@ public class RecommendationService {
   - PROIBIDO retornar objetos em "alerts" ou "substitutions": devem ser STRINGS simples.
   """;
 
-        final String user =
-  """
+    final String user =
+        """
   Considere os dados do usuário:
-  
+
   PRESCRIPTIONS_JSON:
   %s
-  
+
   RESTRICTIONS_JSON:
   %s
-  
+
   Gere o JSON com os campos:
   - model (string)
   - generatedAt (ISO-8601 UTC)
@@ -112,26 +112,26 @@ public class RecommendationService {
   - alerts (array de STRINGS simples, 2 a 4 itens) -> cada item deve citar o alimento/ingrediente de risco e o MOTIVO com base em doença/medicações/restrições
   - substitutions (array de STRINGS simples, 2 a 4 itens) -> cada item no formato "Substitua X por Y porque ..."
   - profileApplied (objeto livre, opcional)
-  
+
   Importante:
   - Escreva em pt-BR.
   - NÃO retorne JSON dentro de strings (sem barras invertidas, sem objetos/arrays serializados como texto).
   - Se precisar listar itens dentro de uma string (ex.: na refeição), separe por vírgulas simples.
   """
-                .formatted(prescriptionsJson, restrictionsJson);
+            .formatted(prescriptionsJson, restrictionsJson);
 
-        return Map.of(
-            "model", "llama3",
-            "messages",
-                List.of(
-                    Map.of("role", "system", "content", system),
-                    Map.of("role", "user", "content", user)),
-            "stream", false,
-            "format", "json",
-            "language", "pt-BR");
-    }
+    return Map.of(
+        "model", "llama3",
+        "messages",
+            List.of(
+                Map.of("role", "system", "content", system),
+                Map.of("role", "user", "content", user)),
+        "stream", false,
+        "format", "json",
+        "language", "pt-BR");
+  }
 
-    private Mono<FoodRecommendationResponseJson> parseMinimal(OllamaChatResponse resp) {
+  private Mono<FoodRecommendationResponseJson> parseMinimal(OllamaChatResponse resp) {
     try {
       var msg = (Map<?, ?>) resp.message();
       var content = (String) msg.get("content");

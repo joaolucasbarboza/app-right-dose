@@ -1,3 +1,10 @@
 package com.fema.tcc.gateways;
 
-public interface DietaryRestrictionGateway {}
+import com.fema.tcc.domains.dietaryRestriction.DietaryRestriction;
+
+public interface DietaryRestrictionGateway {
+
+  DietaryRestriction findById(Integer id);
+
+  boolean existsById(Integer id);
+}
