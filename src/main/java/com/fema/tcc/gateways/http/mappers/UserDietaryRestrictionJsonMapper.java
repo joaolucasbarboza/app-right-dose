@@ -4,6 +4,7 @@ import com.fema.tcc.domains.dietaryRestriction.UserDietaryRestriction;
 import com.fema.tcc.gateways.http.jsons.UserDietaryRestrictionRequestJson;
 import com.fema.tcc.gateways.http.jsons.UserDietaryRestrictionResponseJson;
 import com.fema.tcc.gateways.postgresql.entity.UserDietaryRestrictionEntity;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -21,4 +22,7 @@ public interface UserDietaryRestrictionJsonMapper {
 
   @Mapping(target = "userId", source = "user.id")
   UserDietaryRestrictionResponseJson domainToResponse(UserDietaryRestriction domain);
+
+  List<UserDietaryRestrictionResponseJson> domainsToResponsesList(
+      List<UserDietaryRestriction> domains);
 }

@@ -5,7 +5,9 @@ import com.fema.tcc.gateways.http.jsons.UserDietaryRestrictionRequestJson;
 import com.fema.tcc.gateways.http.jsons.UserDietaryRestrictionResponseJson;
 import com.fema.tcc.gateways.http.mappers.UserDietaryRestrictionJsonMapper;
 import com.fema.tcc.usecases.userDietaryRestriction.CreateUserDietaryRestrictionsUseCase;
+import com.fema.tcc.usecases.userDietaryRestriction.GetAllUserDietaryRestrictionUseCase;
 import com.fema.tcc.usecases.userDietaryRestriction.GetByIdUserDietaryRestrictionUseCase;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ class UserDietaryRestrictionController {
   private final UserDietaryRestrictionJsonMapper mapper;
   private final CreateUserDietaryRestrictionsUseCase createUseCase;
   private final GetByIdUserDietaryRestrictionUseCase getByIdUseCase;
+  private final GetAllUserDietaryRestrictionUseCase getAllUseCase;
 
   @PostMapping
   public ResponseEntity<HttpStatus> create(
@@ -38,5 +41,15 @@ class UserDietaryRestrictionController {
         mapper.domainToResponse(userDietaryRestriction);
 
     return ResponseEntity.ok(responseJson);
+  }
+
+  @GetMapping()
+  public ResponseEntity<List<UserDietaryRestrictionResponseJson>> getAllByUserId() {
+    List<UserDietaryRestriction> userDietaryRestrictions = getAllUseCase.execute();
+
+    List<UserDietaryRestrictionResponseJson> responseList =
+        mapper.domainsToResponsesList(userDietaryRestrictions);
+
+    return ResponseEntity.ok(responseList);
   }
 }
