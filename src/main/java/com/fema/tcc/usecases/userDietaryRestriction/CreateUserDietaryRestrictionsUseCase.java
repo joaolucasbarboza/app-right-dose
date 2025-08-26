@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CreateUserDietaryRestrictionsUseCase {
 
-  private final UserDietaryRestrictionGateway gateway;
+  private final UserDietaryRestrictionGateway userDietaryRestrictionGateway;
   private final DietaryRestrictionGateway dietaryRestrictionGateway;
   private final UserUseCase userUseCase;
 
@@ -29,7 +29,7 @@ public class CreateUserDietaryRestrictionsUseCase {
       User user = userUseCase.getUser();
       userDietaryRestriction.setUser(user);
 
-      gateway.save(userDietaryRestriction);
+      userDietaryRestrictionGateway.save(userDietaryRestriction);
     } catch (Exception e) {
       throw new RuntimeException(e.getMessage());
     }

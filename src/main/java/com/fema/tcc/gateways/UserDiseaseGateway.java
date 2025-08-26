@@ -1,3 +1,10 @@
 package com.fema.tcc.gateways;
 
-public interface UserDiseaseGateway {}
+import com.fema.tcc.domains.disease.UserDisease;
+
+public interface UserDiseaseGateway {
+
+    UserDisease findById(Integer id);
+
+    void save(UserDisease disease);
+}

@@ -1,9 +1,10 @@
 package com.fema.tcc.gateways.postgresql.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Getter
 @Setter
@@ -26,16 +27,15 @@ public class UserDiseaseEntity {
   @JoinColumn(name = "disease_id")
   private DiseaseEntity disease;
 
-  @Column(name = "diagnosed_at")
-  private LocalDate diagnosedAt;
-
   private String notes;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "created_at", nullable = false)
+  @Column(name = "created_at")
+  @CreationTimestamp
   private LocalDateTime createdAt;
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "updated_at")
+  @UpdateTimestamp
   private LocalDateTime updatedAt;
 }
