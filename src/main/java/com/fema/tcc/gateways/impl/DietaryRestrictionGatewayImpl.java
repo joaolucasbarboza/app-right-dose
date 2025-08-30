@@ -8,6 +8,8 @@ import com.fema.tcc.gateways.postgresql.repository.DietaryRestrictionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @AllArgsConstructor
 public class DietaryRestrictionGatewayImpl implements DietaryRestrictionGateway {
@@ -30,4 +32,11 @@ public class DietaryRestrictionGatewayImpl implements DietaryRestrictionGateway 
   public boolean existsById(Integer id) {
     return repository.existsById(id);
   }
+
+    @Override
+    public List<DietaryRestriction> findAll() {
+      List<DietaryRestrictionEntity> entities = repository.findAll();
+
+        return entities.stream().map(mapper::entityToDomain).toList();
+    }
 }

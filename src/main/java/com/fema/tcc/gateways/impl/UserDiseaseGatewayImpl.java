@@ -8,6 +8,8 @@ import com.fema.tcc.gateways.postgresql.repository.UserDiseaseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @AllArgsConstructor
 public class UserDiseaseGatewayImpl implements UserDiseaseGateway {
@@ -28,5 +30,12 @@ public class UserDiseaseGatewayImpl implements UserDiseaseGateway {
     public void save(UserDisease userDisease) {
         UserDiseaseEntity entity = mapper.domainToEntity(userDisease);
         repository.save(entity);
+    }
+
+    @Override
+    public List<UserDisease> findAllByUserId(Integer userId) {
+        List<UserDiseaseEntity> entities = repository.findAllByUser_Id(userId);
+
+        return entities.stream().map(mapper::entityToDomain).toList();
     }
 }

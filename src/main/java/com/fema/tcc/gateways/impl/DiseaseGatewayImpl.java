@@ -8,6 +8,8 @@ import com.fema.tcc.gateways.postgresql.repository.DiseaseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @AllArgsConstructor
 public class DiseaseGatewayImpl implements DiseaseGateway {
@@ -21,5 +23,12 @@ public class DiseaseGatewayImpl implements DiseaseGateway {
                 .orElseThrow(() -> new RuntimeException("Disease not found"));
 
         return mapper.entityToDomain(entity);
+    }
+
+    @Override
+    public List<Disease> findAll() {
+        List<DiseaseEntity> entities = repository.findAll();
+
+        return entities.stream().map(mapper::entityToDomain).toList();
     }
 }

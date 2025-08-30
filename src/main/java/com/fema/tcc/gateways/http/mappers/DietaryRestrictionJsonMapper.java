@@ -10,4 +10,6 @@ public interface DietaryRestrictionJsonMapper {
   DietaryRestriction entityToDomain(DietaryRestrictionEntity entity);
 
   DietaryRestrictionEntity domainToEntity(DietaryRestriction domain);
+
+  DietaryRestrictionResponseJson domainToResponse(DietaryRestriction domain);
 }
