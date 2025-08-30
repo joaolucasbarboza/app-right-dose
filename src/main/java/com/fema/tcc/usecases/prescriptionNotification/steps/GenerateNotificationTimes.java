@@ -18,7 +18,7 @@ public class GenerateNotificationTimes {
     LocalDateTime current = prescription.getStartDate();
     Duration interval = calculateInterval(prescription);
 
-    while (!current.isAfter(end)) {
+    while (current.isBefore(end)) {
       times.add(current);
       current = current.plus(interval);
     }

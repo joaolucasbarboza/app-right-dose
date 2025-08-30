@@ -29,7 +29,7 @@ public class NextNotificationUseCase {
     if (notifications == null || notifications.isEmpty()) {
       current = LocalDateTime.now();
     } else {
-      current = notifications.getFirst().getNotificationTime();
+      current = notifications.getLast().getNotificationTime();
     }
 
     Duration interval = calculateInterval(prescription);

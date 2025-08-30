@@ -46,7 +46,11 @@ public class UpdateStatusUseCase {
       notification.setUpdatedAt(LocalDateTime.now());
 
       savePrescriptionNotificationHistoryUseCase.execute(notification);
-      generateNotificationsFlow.execute(notification.getPrescription(), 1);
+
+      if (notification.getPrescription().isIndefinite()) {
+          generateNotificationsFlow.execute(notification.getPrescription(), 1);
+      }
+
       deleteNotificationUseCase.execute(notificationId);
     }
 
