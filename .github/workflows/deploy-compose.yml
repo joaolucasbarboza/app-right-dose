@@ -19,7 +19,8 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: HST_HOST
+    environment:
+      name: HST_HOST
 
     steps:
       - name: Checkout (opcional; mantém consistência)
