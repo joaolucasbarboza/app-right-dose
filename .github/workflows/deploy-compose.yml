@@ -18,6 +18,7 @@ permissions:
 
 jobs:
   deploy:
+    environment: HST_HOST
     runs-on: ubuntu-latest
 
     steps:
