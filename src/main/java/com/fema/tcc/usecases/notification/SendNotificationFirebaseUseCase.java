@@ -22,19 +22,20 @@ public class SendNotificationFirebaseUseCase {
   public void execute(String message) {
     try {
       NotificationPayloadJson payloadJson = stringConverterGateway.fromString(message);
-      String notificationMessage = payloadJson.message();
 
       log.info("[JOB: SendNotificationFirebaseUseCase] - START - Sending notification");
       log.info("[JOB: SendNotificationFirebaseUseCase] - Payload: {}", payloadJson);
-      Message firebaseMessage =
-          Message.builder()
-              .setToken(payloadJson.userToken())
-              .setNotification(
-                  Notification.builder()
-                      .setTitle(NOTIFICATION_TITLE)
-                      .setBody(notificationMessage)
-                      .build())
-              .build();
+        Message firebaseMessage =
+                Message.builder()
+                        .setToken(payloadJson.userToken())
+                        .setNotification(
+                                Notification.builder()
+                                        .setTitle(NOTIFICATION_TITLE)
+                                        .setBody(payloadJson.message()) // corpo “bonito” para mostrar no push
+                                        .build())
+                        .putData("notificationId", String.valueOf(payloadJson.notificationId()))
+                        .putData("message", payloadJson.message())
+                        .build();
 
       String response = firebaseMessaging.send(firebaseMessage);
       log.info("Resposta do Firebase: {}", response);

@@ -36,6 +36,9 @@ public class Prescription {
 
   private List<PrescriptionNotification> notifications;
 
+  private Long totalConfirmed;
+  private Long totalPending;
+
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
 

@@ -2,6 +2,7 @@ package com.fema.tcc.usecases.prescriptionNotification;
 
 import com.fema.tcc.domains.prescription.Prescription;
 import com.fema.tcc.domains.prescriptionNotification.PrescriptionNotification;
+import com.fema.tcc.gateways.PrescriptionGateway;
 import com.fema.tcc.gateways.PrescriptionNotificationGateway;
 import com.fema.tcc.usecases.prescriptionNotification.steps.BuildNotifications;
 import com.fema.tcc.usecases.prescriptionNotification.steps.GenerateNotificationTimes;
@@ -19,6 +20,7 @@ public class GenerateNotificationsFlow {
   private final GenerateNotificationTimes generateNotificationTimes;
   private final BuildNotifications buildNotifications;
   private final PrescriptionNotificationGateway gateway;
+  private final PrescriptionGateway prescriptionGateway;
 
   public void execute(Prescription prescription, int quantityGenerate) {
 
@@ -37,5 +39,8 @@ public class GenerateNotificationsFlow {
     List<PrescriptionNotification> notifications = buildNotifications.execute(prescription, times);
 
     gateway.saveAll(notifications);
+
+    prescription.setTotalPending((long) times.size());
+    prescriptionGateway.save(prescription);
   }
 }

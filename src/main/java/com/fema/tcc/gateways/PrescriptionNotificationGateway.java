@@ -23,4 +23,6 @@ public interface PrescriptionNotificationGateway {
   List<PrescriptionNotification> findAllByPrescriptionId(Long prescriptionId);
 
   void deleteById(Long id);
+
+  Long countPendingById(Long prescriptionId);
 }

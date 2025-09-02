@@ -5,4 +5,6 @@ import com.fema.tcc.domains.prescriptionNotificationHistory.PrescriptionNotifica
 public interface PrescriptionNotificationHistoryGateway {
 
   void save(PrescriptionNotificationHistory prescriptionNotificationHistory);
+
+  Long countStatusConfirmedByPrescriptionId(Long id);
 }

@@ -83,4 +83,9 @@ public class PrescriptionNotificationImpl implements PrescriptionNotificationGat
   public void deleteById(Long id) {
     repository.deleteById(id);
   }
+
+  @Override
+  public Long countPendingById(Long prescriptionId) {
+      return repository.countPending(prescriptionId);
+  }
 }

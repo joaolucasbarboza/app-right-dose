@@ -27,7 +27,8 @@ public class NextNotificationUseCase {
     LocalDateTime current;
 
     if (notifications == null || notifications.isEmpty()) {
-      current = LocalDateTime.now();
+      current = prescription.getStartDate();
+      times.add(current);
     } else {
       current = notifications.getLast().getNotificationTime();
     }

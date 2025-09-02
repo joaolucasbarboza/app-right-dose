@@ -1,8 +1,11 @@
 package com.fema.tcc.usecases.prescriptionNotification;
 
 import com.fema.tcc.domains.enums.Status;
+import com.fema.tcc.domains.prescription.Prescription;
 import com.fema.tcc.domains.prescriptionNotification.PrescriptionNotification;
+import com.fema.tcc.gateways.PrescriptionGateway;
 import com.fema.tcc.gateways.PrescriptionNotificationGateway;
+import com.fema.tcc.gateways.PrescriptionNotificationHistoryGateway;
 import com.fema.tcc.usecases.prescriptionNotificationHistory.SavePrescriptionNotificationHistoryUseCase;
 import com.fema.tcc.usecases.user.UserUseCase;
 import java.time.LocalDateTime;
@@ -19,6 +22,8 @@ public class UpdateStatusUseCase {
   private final SavePrescriptionNotificationHistoryUseCase
       savePrescriptionNotificationHistoryUseCase;
   private final PrescriptionNotificationGateway notificationGateway;
+  private final PrescriptionGateway prescriptionGateway;
+  private final PrescriptionNotificationHistoryGateway prescriptionNotificationHistoryGateway;
   private final GenerateNotificationsFlow generateNotificationsFlow;
   private final UserUseCase userUseCase;
 
@@ -52,6 +57,17 @@ public class UpdateStatusUseCase {
       }
 
       deleteNotificationUseCase.execute(notificationId);
+
+      Prescription prescription = notification.getPrescription();
+
+      Long countStatusPending = notificationGateway.countPendingById(prescription.getId());
+      Long countStatusConfirmed = prescriptionNotificationHistoryGateway
+              .countStatusConfirmedByPrescriptionId(prescription.getId());
+
+      prescription.setTotalConfirmed(countStatusConfirmed);
+      prescription.setTotalPending(countStatusPending);
+
+      prescriptionGateway.save(prescription);
     }
 
     return notification;

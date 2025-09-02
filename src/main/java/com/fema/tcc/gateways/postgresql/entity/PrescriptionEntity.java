@@ -68,6 +68,12 @@ public class PrescriptionEntity {
 
   private String instructions;
 
+  @Column(name = "total_confirmed")
+  private Long totalConfirmed;
+
+  @Column(name = "total_pending")
+  private Long totalPending;
+
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "created_at", updatable = false)
   private LocalDateTime createdAt;

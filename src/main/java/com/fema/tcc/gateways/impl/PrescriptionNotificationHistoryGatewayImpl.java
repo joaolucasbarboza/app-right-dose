@@ -21,4 +21,9 @@ public class PrescriptionNotificationHistoryGatewayImpl
     PrescriptionNotificationHistoryEntity entity = jsonMapper.domainToEntity(notificationHistory);
     repository.save(entity);
   }
+
+    @Override
+    public Long countStatusConfirmedByPrescriptionId(Long id) {
+        return repository.countConfirmed(id);
+    }
 }
