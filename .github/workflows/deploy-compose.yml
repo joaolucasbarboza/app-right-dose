@@ -67,6 +67,19 @@ jobs:
 
             chmod 600 .env
             echo "[OK] .env atualizado em $DEPLOY_DIR/.env"
+            
+
+      - name: SCP • enviar docker-compose.yml para o servidor
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HST_HOST }}
+          username: ${{ secrets.HST_USER }}
+          key: ${{ secrets.HST_SSH_KEY }}
+          port: ${{ secrets.HST_PORT }}
+          source: "docker-compose.yml"
+          target: "/srv/app/"
+          overwrite: true
+          strip_components: 0
 
       - name: SSH • compose (infra) + app do GHCR
         uses: appleboy/ssh-action@v1.2.0
