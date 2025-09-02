@@ -76,7 +76,7 @@ jobs:
           username: ${{ secrets.HST_USER }}
           key: ${{ secrets.HST_SSH_KEY }}
           port: ${{ secrets.HST_PORT }}
-          source: "docker-compose.yml"
+          source: "docker-compose.yaml"
           target: "/srv/app/"
           overwrite: true
           strip_components: 0
