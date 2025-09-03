@@ -38,6 +38,24 @@ services:
     ports:
       - "11434:11434"
 
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: nginx-proxy
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/snippets:/etc/nginx/snippets:ro
+    networks:
+      - default
+
 volumes:
   postgres_data:
   ollama-data:
+
+networks:
+  default:
+    name: ${COMPOSE_PROJECT_NAME:-right-dose}_default
