@@ -41,6 +41,7 @@ jobs:
 
             cat > .env <<EOF
             # --- App ---
+            SPRING_AI_OLLAMA_BASE_URL=${{ vars.SPRING_AI_OLLAMA_BASE_URL }}
             SPRING_APPLICATION_NAME=${{ vars.SPRING_APPLICATION_NAME }}
             SPRING_PROFILES_ACTIVE=${{ vars.SPRING_PROFILES_ACTIVE }}
             SERVER_PORT=8080
