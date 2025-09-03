@@ -31,7 +31,7 @@ public class SendNotificationFirebaseUseCase {
               .setNotification(
                   Notification.builder()
                       .setTitle(NOTIFICATION_TITLE)
-                      .setBody(payloadJson.message()) // corpo “bonito” para mostrar no push
+                      .setBody(payloadJson.message())
                       .build())
               .putData("notificationId", String.valueOf(payloadJson.notificationId()))
               .putData("message", payloadJson.message())
