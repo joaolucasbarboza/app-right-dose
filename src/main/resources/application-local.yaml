@@ -28,6 +28,9 @@ spring:
           model: llama3
           temperature: 0.2
 
+  jackson:
+    time-zone: America/Sao_Paulo
+
 queue:
   name: notificationQueue
 
