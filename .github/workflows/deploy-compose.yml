@@ -10,7 +10,7 @@ on:
       project_name:
         description: "Compose project name"
         required: false
-        default: "rightdose"
+        default: "right-dose"
 
 permissions:
   contents: read
@@ -68,6 +68,10 @@ jobs:
             chmod 600 .env
             echo "[OK] .env atualizado em $DEPLOY_DIR/.env"
             
+            echo "${{ secrets.FIREBASE_SA_B64 }}" | base64 -d > firebase-service-account.json
+            chmod 600 firebase-service-account.json
+            echo "[OK] firebase-service-account.json escrito em $DEPLOY_DIR"
+            
 
       - name: SCP • enviar docker-compose.yml para o servidor
         uses: appleboy/scp-action@v0.1.7
@@ -92,7 +96,7 @@ jobs:
             set -euo pipefail
             DEPLOY_DIR="/srv/app"
             COMPOSE_PROJ="${{ github.event.inputs.project_name || 'rightdose' }}"
-            APP_IMAGE="ghcr.io/${{ github.repository }}:${{ github.event.inputs.image_tag || 'main' }}"
+            APP_IMAGE="ghcr.io/${{ github.repository }}:${{ github.event.inputs.image_tag || 'latest' }}"
             APP_NAME="${{ vars.SPRING_APPLICATION_NAME }}"
             : "${APP_NAME:=rightdose-app}"   # fallback se variável estiver vazia
             APP_PORT="8080"

@@ -1,20 +1,38 @@
 spring:
-  application:
-    name: right-dose
-  profiles:
-    active: local
-
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
 
   jpa:
-    hibernate.ddl-auto: update # create-drop
-    show-sql: false
+    hibernate.ddl-auto: update
     properties:
       hibernate:
         format_sql: true
 
-schedule:
-  notification-job: "0 0/1 * * * ?"
+  rabbitmq:
+    host: ${RABBITMQ_HOST:rabbitmq}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_DEFAULT_USER}
+    password: ${RABBITMQ_DEFAULT_PASS}
+
+queue:
+  name: notificationQueue
+
+firebase:
+  service-account-file: file:/app/firebase-service-account.json
+
+api:
+  security:
+    token:
+      secret: ${API_SECURITY_TOKEN_SECRET:?missing}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
+    enabled: true
+
+openai:
+  api-key: ${KEY_OPENAI}

@@ -37,7 +37,7 @@ firebase:
 api:
   security:
     token:
-      secret: my-secret
+      secret: ${API_SECURITY_TOKEN_SECRET:?missing}
 
 springdoc:
   swagger-ui:
