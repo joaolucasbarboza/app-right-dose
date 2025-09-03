@@ -16,7 +16,10 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-ENV JAVA_OPTS="-XX:+UseG1GC -XX:MaxRAMPercentage=75"
+# Define o timezone da imagem
+ENV TZ=America/Sao_Paulo
+
+ENV JAVA_OPTS="-XX:+UseG1GC -XX:MaxRAMPercentage=75 -Duser.timezone=America/Sao_Paulo"
 
 COPY --from=build /app/target/*.jar app.jar
 
