@@ -119,6 +119,7 @@ jobs:
               --restart unless-stopped \
               --network "${COMPOSE_PROJ}_default" \
               --env-file "${DEPLOY_DIR}/.env" \
+              -v "${DEPLOY_DIR}/firebase-service-account.json:/app/firebase-service-account.json:ro" \
               -p "${APP_PORT}:8080" \
               "${APP_IMAGE}"
 
