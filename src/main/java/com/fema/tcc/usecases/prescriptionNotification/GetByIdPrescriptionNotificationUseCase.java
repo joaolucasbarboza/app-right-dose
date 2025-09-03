@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GetByIdPrescriptionNotificationUseCase {
 
-    private final PrescriptionNotificationGateway prescriptionNotificationGateway;
+  private final PrescriptionNotificationGateway prescriptionNotificationGateway;
 
-    public PrescriptionNotification execute(Long id) {
-        return prescriptionNotificationGateway.findById(id);
-    }
+  public PrescriptionNotification execute(Long id) {
+    return prescriptionNotificationGateway.findById(id);
+  }
 }

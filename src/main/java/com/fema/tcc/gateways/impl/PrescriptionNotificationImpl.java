@@ -86,6 +86,6 @@ public class PrescriptionNotificationImpl implements PrescriptionNotificationGat
 
   @Override
   public Long countPendingById(Long prescriptionId) {
-      return repository.countPending(prescriptionId);
+    return repository.countPending(prescriptionId);
   }
 }

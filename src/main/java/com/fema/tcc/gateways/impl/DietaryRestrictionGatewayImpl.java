@@ -5,10 +5,9 @@ import com.fema.tcc.gateways.DietaryRestrictionGateway;
 import com.fema.tcc.gateways.http.mappers.DietaryRestrictionJsonMapper;
 import com.fema.tcc.gateways.postgresql.entity.DietaryRestrictionEntity;
 import com.fema.tcc.gateways.postgresql.repository.DietaryRestrictionRepository;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @AllArgsConstructor
@@ -33,10 +32,10 @@ public class DietaryRestrictionGatewayImpl implements DietaryRestrictionGateway 
     return repository.existsById(id);
   }
 
-    @Override
-    public List<DietaryRestriction> findAll() {
-      List<DietaryRestrictionEntity> entities = repository.findAll();
+  @Override
+  public List<DietaryRestriction> findAll() {
+    List<DietaryRestrictionEntity> entities = repository.findAll();
 
-        return entities.stream().map(mapper::entityToDomain).toList();
-    }
+    return entities.stream().map(mapper::entityToDomain).toList();
+  }
 }

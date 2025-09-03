@@ -8,7 +8,8 @@ import org.springframework.data.repository.query.Param;
 public interface PrescriptionNotificationHistoryRepository
     extends JpaRepository<PrescriptionNotificationHistoryEntity, Long> {
 
-    @Query("SELECT COUNT(n) FROM prescription_notification_history n " +
-            "WHERE n.prescription.id = :prescriptionId AND n.status = 'CONFIRMED'")
-    Long countConfirmed(@Param("prescriptionId") Long prescriptionId);
+  @Query(
+      "SELECT COUNT(n) FROM prescription_notification_history n "
+          + "WHERE n.prescription.id = :prescriptionId AND n.status = 'CONFIRMED'")
+  Long countConfirmed(@Param("prescriptionId") Long prescriptionId);
 }

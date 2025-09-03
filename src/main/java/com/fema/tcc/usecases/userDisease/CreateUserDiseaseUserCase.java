@@ -13,25 +13,24 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CreateUserDiseaseUserCase {
 
-    private final UserDiseaseGateway userDiseaseGateway;
-    private final DiseaseGateway diseaseGateway;
-    private final UserUseCase userUseCase;
+  private final UserDiseaseGateway userDiseaseGateway;
+  private final DiseaseGateway diseaseGateway;
+  private final UserUseCase userUseCase;
 
-    public void execute(UserDisease userDisease) {
+  public void execute(UserDisease userDisease) {
 
-        try {
-            Integer diseaseId = userDisease.getDisease().getId();
+    try {
+      Integer diseaseId = userDisease.getDisease().getId();
 
-            Disease disease = diseaseGateway.findById(diseaseId);
-            userDisease.setDisease(disease);
+      Disease disease = diseaseGateway.findById(diseaseId);
+      userDisease.setDisease(disease);
 
-            User user = userUseCase.getUser();
-            userDisease.setUser(user);
+      User user = userUseCase.getUser();
+      userDisease.setUser(user);
 
-            userDiseaseGateway.save(userDisease);
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-
+      userDiseaseGateway.save(userDisease);
+    } catch (RuntimeException e) {
+      throw new RuntimeException(e.getMessage());
     }
+  }
 }

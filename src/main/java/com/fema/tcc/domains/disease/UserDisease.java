@@ -2,7 +2,6 @@ package com.fema.tcc.domains.disease;
 
 import com.fema.tcc.domains.user.User;
 import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

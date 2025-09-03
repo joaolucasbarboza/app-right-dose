@@ -55,12 +55,12 @@ public class PrescriptionNotificationController {
     return ResponseEntity.ok().body(responseJsons);
   }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PrescriptionNotificationResponseJson> getByID(@PathVariable Long id) {
+  @GetMapping("/{id}")
+  public ResponseEntity<PrescriptionNotificationResponseJson> getByID(@PathVariable Long id) {
 
-        PrescriptionNotification notification = getByIdPrescriptionNotificationUseCase.execute(id);
-        PrescriptionNotificationResponseJson responseJson = jsonMapper.domainToResponse(notification);
+    PrescriptionNotification notification = getByIdPrescriptionNotificationUseCase.execute(id);
+    PrescriptionNotificationResponseJson responseJson = jsonMapper.domainToResponse(notification);
 
-        return ResponseEntity.ok().body(responseJson);
-    }
+    return ResponseEntity.ok().body(responseJson);
+  }
 }

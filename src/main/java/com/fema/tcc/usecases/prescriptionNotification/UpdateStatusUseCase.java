@@ -53,7 +53,7 @@ public class UpdateStatusUseCase {
       savePrescriptionNotificationHistoryUseCase.execute(notification);
 
       if (notification.getPrescription().isIndefinite()) {
-          generateNotificationsFlow.execute(notification.getPrescription(), 1);
+        generateNotificationsFlow.execute(notification.getPrescription(), 1);
       }
 
       deleteNotificationUseCase.execute(notificationId);
@@ -61,8 +61,9 @@ public class UpdateStatusUseCase {
       Prescription prescription = notification.getPrescription();
 
       Long countStatusPending = notificationGateway.countPendingById(prescription.getId());
-      Long countStatusConfirmed = prescriptionNotificationHistoryGateway
-              .countStatusConfirmedByPrescriptionId(prescription.getId());
+      Long countStatusConfirmed =
+          prescriptionNotificationHistoryGateway.countStatusConfirmedByPrescriptionId(
+              prescription.getId());
 
       prescription.setTotalConfirmed(countStatusConfirmed);
       prescription.setTotalPending(countStatusPending);

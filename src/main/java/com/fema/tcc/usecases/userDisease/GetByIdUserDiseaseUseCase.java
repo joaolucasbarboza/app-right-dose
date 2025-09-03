@@ -10,18 +10,19 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GetByIdUserDiseaseUseCase {
 
-    private final UserDiseaseGateway userDiseaseGateway;
-    private final UserUseCase userUseCase;
+  private final UserDiseaseGateway userDiseaseGateway;
+  private final UserUseCase userUseCase;
 
-    public UserDisease execute(Integer id) {
-        UserDisease userDisease = userDiseaseGateway.findById(id);
+  public UserDisease execute(Integer id) {
+    UserDisease userDisease = userDiseaseGateway.findById(id);
 
-        Integer userId = userUseCase.getCurrentUser();
+    Integer userId = userUseCase.getCurrentUser();
 
-        if (!userDisease.getUser().getId().equals(userId)) {
-            throw new IllegalArgumentException("User does not have permission to access this disease record.");
-        }
-
-        return userDisease;
+    if (!userDisease.getUser().getId().equals(userId)) {
+      throw new IllegalArgumentException(
+          "User does not have permission to access this disease record.");
     }
+
+    return userDisease;
+  }
 }

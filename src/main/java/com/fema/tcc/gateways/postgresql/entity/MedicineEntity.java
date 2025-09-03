@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Setter
@@ -23,7 +24,8 @@ public class MedicineEntity {
   private String description;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "created_at", updatable = false)
+  @Column(name = "created_at")
+  @CreationTimestamp
   private LocalDateTime createdAt;
 
   @Temporal(TemporalType.TIMESTAMP)

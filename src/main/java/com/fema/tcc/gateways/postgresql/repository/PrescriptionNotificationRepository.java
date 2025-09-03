@@ -19,12 +19,13 @@ public interface PrescriptionNotificationRepository
   List<PrescriptionNotificationEntity> findAllReadyToNotify(
       @Param("now") LocalDateTime now, @Param("limitTime") LocalDateTime limitTime);
 
-    @Query("SELECT n FROM prescription_notification n " +
-            "JOIN n.prescription p " +
-            "WHERE p.id = :prescriptionId " +
-            "ORDER BY n.notificationTime ASC")
-    List<PrescriptionNotificationEntity> findAllByPrescriptionId(
-            @Param("prescriptionId") Long prescriptionId);
+  @Query(
+      "SELECT n FROM prescription_notification n "
+          + "JOIN n.prescription p "
+          + "WHERE p.id = :prescriptionId "
+          + "ORDER BY n.notificationTime ASC")
+  List<PrescriptionNotificationEntity> findAllByPrescriptionId(
+      @Param("prescriptionId") Long prescriptionId);
 
   @Query(
 """
@@ -39,7 +40,8 @@ public interface PrescriptionNotificationRepository
   Page<PrescriptionNotificationEntity> findAllByUserId(
       @Param("userId") Integer userId, @Param("now") LocalDateTime now, Pageable pageable);
 
-  @Query("SELECT COUNT(n) FROM prescription_notification n " +
-          "WHERE n.prescription.id = :prescriptionId AND n.status = 'PENDING'")
+  @Query(
+      "SELECT COUNT(n) FROM prescription_notification n "
+          + "WHERE n.prescription.id = :prescriptionId AND n.status = 'PENDING'")
   Long countPending(@Param("prescriptionId") Long prescriptionId);
 }

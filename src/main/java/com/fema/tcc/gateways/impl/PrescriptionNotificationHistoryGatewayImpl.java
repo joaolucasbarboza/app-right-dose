@@ -22,8 +22,8 @@ public class PrescriptionNotificationHistoryGatewayImpl
     repository.save(entity);
   }
 
-    @Override
-    public Long countStatusConfirmedByPrescriptionId(Long id) {
-        return repository.countConfirmed(id);
-    }
+  @Override
+  public Long countStatusConfirmedByPrescriptionId(Long id) {
+    return repository.countConfirmed(id);
+  }
 }

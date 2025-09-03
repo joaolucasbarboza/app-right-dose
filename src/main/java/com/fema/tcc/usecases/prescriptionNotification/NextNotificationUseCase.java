@@ -24,20 +24,20 @@ public class NextNotificationUseCase {
     List<PrescriptionNotification> notifications =
         prescriptionNotificationGateway.findAllByPrescriptionId(prescription.getId());
 
-    LocalDateTime current;
+    LocalDateTime notificationTime;
 
     if (notifications == null || notifications.isEmpty()) {
-      current = prescription.getStartDate();
-      times.add(current);
+      notificationTime = prescription.getStartDate();
+      times.add(notificationTime);
     } else {
-      current = notifications.getLast().getNotificationTime();
+      notificationTime = notifications.getLast().getNotificationTime();
     }
 
     Duration interval = calculateInterval(prescription);
 
     for (int i = 0; i < quantityGenerate; i++) {
-      current = current.plus(interval);
-      times.add(current);
+      notificationTime = notificationTime.plus(interval);
+      times.add(notificationTime);
     }
 
     return times;

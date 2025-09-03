@@ -5,37 +5,35 @@ import com.fema.tcc.gateways.UserDiseaseGateway;
 import com.fema.tcc.gateways.http.mappers.UserDiseaseJsonMapper;
 import com.fema.tcc.gateways.postgresql.entity.UserDiseaseEntity;
 import com.fema.tcc.gateways.postgresql.repository.UserDiseaseRepository;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @AllArgsConstructor
 public class UserDiseaseGatewayImpl implements UserDiseaseGateway {
 
-    private final UserDiseaseRepository repository;
-    private final UserDiseaseJsonMapper mapper;
+  private final UserDiseaseRepository repository;
+  private final UserDiseaseJsonMapper mapper;
 
+  @Override
+  public UserDisease findById(Integer id) {
+    UserDiseaseEntity entity =
+        repository.findById(id).orElseThrow(() -> new RuntimeException("UserDisease not found"));
 
-    @Override
-    public UserDisease findById(Integer id) {
-        UserDiseaseEntity entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("UserDisease not found"));
+    return mapper.entityToDomain(entity);
+  }
 
-        return mapper.entityToDomain(entity);
-    }
+  @Override
+  public void save(UserDisease userDisease) {
+    UserDiseaseEntity entity = mapper.domainToEntity(userDisease);
+    repository.save(entity);
+  }
 
-    @Override
-    public void save(UserDisease userDisease) {
-        UserDiseaseEntity entity = mapper.domainToEntity(userDisease);
-        repository.save(entity);
-    }
+  @Override
+  public List<UserDisease> findAllByUserId(Integer userId) {
+    List<UserDiseaseEntity> entities = repository.findAllByUser_Id(userId);
 
-    @Override
-    public List<UserDisease> findAllByUserId(Integer userId) {
-        List<UserDiseaseEntity> entities = repository.findAllByUser_Id(userId);
-
-        return entities.stream().map(mapper::entityToDomain).toList();
-    }
+    return entities.stream().map(mapper::entityToDomain).toList();
+  }
 }

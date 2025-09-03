@@ -19,5 +19,5 @@ public interface UserDiseaseJsonMapper {
   @Mapping(target = "disease.id", source = "diseaseId")
   UserDisease requestToDomain(UserDiseaseRequestJson request);
 
-    UserDiseaseResponseJson domainToResponse(UserDisease domain);
+  UserDiseaseResponseJson domainToResponse(UserDisease domain);
 }
