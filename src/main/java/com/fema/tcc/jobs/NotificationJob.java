@@ -13,7 +13,7 @@ public class NotificationJob {
 
   private final NotificationUseCase notificationUseCase;
 
-  @Scheduled(cron = "${schedule.notification-job}")
+  @Scheduled(cron = "0 0/1 * * * ?")
   public void execute() {
     log.info("[JOB: NotificationJob] - START - Executando job de notificação");
     try {
