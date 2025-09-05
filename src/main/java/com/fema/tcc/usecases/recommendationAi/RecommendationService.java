@@ -121,7 +121,7 @@ public class RecommendationService {
         """.formatted(system, user);
 
         return Map.of(
-                "model",  "llama3:8b",
+                "model",  "llama3",
                 "prompt", prompt,
                 "stream", false,
                 "format", "json",
