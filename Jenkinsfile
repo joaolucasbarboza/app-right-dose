@@ -97,7 +97,7 @@ pipeline {
 						-e SPRING_RABBITMQ_PASSWORD=${SPRING_RABBITMQ_PASSWORD}
 					""".trim().replaceAll('\n\\s+', ' ')
 
-					docker.image(env.DOCKER_IMAGE).withRun("${envVars} -p 8080:8080 --name ${finalContainer}") { c ->
+					docker.image(env.DOCKER_IMAGE).withRun("${envVars} -p 8080:8080 --name ${nameContainer}") { c ->
 						def healthy = false
 						echo "Verificando health check do novo container..."
 
