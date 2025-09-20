@@ -98,10 +98,10 @@ pipeline {
 
 					sh """
 						echo "Iniciando novo container ${nameContainer}..."
-						docker run -d
-							--network ${network}
-							--name ${nameContainer} ${envVars}
-							-p 8080:8080 ${env.DOCKER_IMAGE}
+						docker run -d \
+							--network ${network} \
+							--name ${nameContainer} ${envVars} \
+							-p 8080:8080 ${env.DOCKER_IMAGE} \
 					"""
 
 					sh """
