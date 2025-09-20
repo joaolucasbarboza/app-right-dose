@@ -39,6 +39,8 @@ public class SecurityConfig {
                     .permitAll()
                     .requestMatchers(HttpMethod.GET, "/generateAi")
                     .permitAll()
+                    .requestMatchers("/actuator/health", "/actuator/health/**")
+                    .permitAll()
                     .anyRequest()
                     .authenticated())
         .exceptionHandling(
