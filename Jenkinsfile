@@ -5,8 +5,8 @@ pipeline {
 		stage('Build Docker Image') {
 			steps {
 				script {
-					def dockerapp = docker.build("joaolucasbarboza/right-dose:${env.BUILD_ID}", '-f Dockerfile .')
-					env.DOCKER_IMAGE = "joaolucasbarboza/right-dose:${env.BUILD_ID}"
+					def dockerapp = docker.build("joaolucaas/right-dose:${env.BUILD_ID}", '-f Dockerfile .')
+					env.DOCKER_IMAGE = "joaolucaas/right-dose:${env.BUILD_ID}"
 				}
 			}
 		}
