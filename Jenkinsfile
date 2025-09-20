@@ -63,10 +63,17 @@ pipeline {
 		stage('Deploy Docker Image') {
 			steps {
 				script {
-					def newContainer = 'right-dose-new'
-					def finalContainer = 'right-dose'
+					def nameContainer = 'right-dose'
 					def maxRetries = 5
 					def retryInterval = 5
+
+					sh """
+						if docker ps -a | grep -q ${nameContainer}; then
+							echo "Removendo container antigo..."
+							docker stop ${nameContainer} || true
+							docker rm ${nameContainer} || true
+						fi
+					"""
 
 					def envVars = """
 						-e SPRING_AI_OLLAMA_BASE_URL=${SPRING_AI_OLLAMA_BASE_URL}
@@ -90,7 +97,7 @@ pipeline {
 						-e SPRING_RABBITMQ_PASSWORD=${SPRING_RABBITMQ_PASSWORD}
 					""".trim().replaceAll('\n\\s+', ' ')
 
-					docker.image(env.DOCKER_IMAGE).withRun("${envVars} -v \${WORKSPACE}/src/main/resources/firebase-service-account.json:/app/firebase-service-account.json:ro -p 8080:8080 --name ${newContainer}") { c ->
+					docker.image(env.DOCKER_IMAGE).withRun("${envVars} -p 8080:8080 --name ${finalContainer}") { c ->
 						def healthy = false
 						echo "Verificando health check do novo container..."
 
@@ -111,15 +118,6 @@ pipeline {
 							error "Health check falhou após ${maxRetries} tentativas. Abortando deploy."
 						}
 
-						echo "Novo container está saudável, removendo container antigo..."
-
-						def oldContainer = docker.image(env.DOCKER_IMAGE).inspect(finalContainer)
-						if (oldContainer) {
-							docker.image(env.DOCKER_IMAGE).stop(finalContainer)
-							docker.image(env.DOCKER_IMAGE).remove(finalContainer)
-						}
-
-						sh "docker rename ${newContainer} ${finalContainer}"
 						echo "Deploy concluído com sucesso!"
 					}
 				}
