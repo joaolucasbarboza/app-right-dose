@@ -23,19 +23,17 @@ pipeline {
 		SPRING_RABBITMQ_PORT = '5672'
 		SPRING_RABBITMQ_USERNAME = credentials('RABBITMQ_DEFAULT_USER')
 		SPRING_RABBITMQ_PASSWORD = credentials('RABBITMQ_DEFAULT_PASS')
-
-		FIREBASE_SA_B64 = credentials('FIREBASE_SA_B64')
 	}
 
 	stages {
 		stage('Setup Firebase') {
 			steps {
 				script {
-					withCredentials([string(credentialsId: 'FIREBASE_SA_B64', variable: 'FIREBASE_SA')]) {
-						writeFile file: 'firebase-service-account.json', text: sh(
-							script: "echo \$FIREBASE_SA | base64 -d",
-							returnStdout: true
-						)
+					configFileProvider([configFile(fileId: 'FIREBASE_SA_B64', variable: 'FIREBASE_SA_FILE')]) {
+						sh """
+							cat "\${FIREBASE_SA_FILE}" | base64 -d > firebase-service-account.json
+							chmod 600 firebase-service-account.json
+						"""
 					}
 				}
 			}
