@@ -97,7 +97,7 @@ pipeline {
 					""".trim().replaceAll('\n\\s+', ' ')
 
 					sh """
-						echo "Iniciando novo container ${nameContainer}..."
+						echo "Iniciando novo container ${nameContainer}"
 						docker run -d \
 							--network ${network} \
 							--name ${nameContainer} ${envVars} \
