@@ -103,7 +103,7 @@ pipeline {
 
 						for (int i = 0; i < maxRetries; i++) {
 							try {
-								def health = sh(script: "curl -f http://localhost:8080/actuator/health || exit 1", returnStatus: true)
+								def health = sh(script: "curl -f http://right-dose:8080/actuator/health || exit 1", returnStatus: true)
 								if (health == 0) {
 									healthy = true
 									break
