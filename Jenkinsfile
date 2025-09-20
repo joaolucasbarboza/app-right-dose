@@ -23,17 +23,18 @@ pipeline {
 		SPRING_RABBITMQ_PORT = '5672'
 		SPRING_RABBITMQ_USERNAME = credentials('RABBITMQ_DEFAULT_USER')
 		SPRING_RABBITMQ_PASSWORD = credentials('RABBITMQ_DEFAULT_PASS')
-		FIREBASE_SA = credentials('FIREBASE_SA_B64')
 	}
 
 	stages {
 		stage('Setup Firebase') {
 			steps {
 				script {
-					sh """
-						echo "\${FIREBASE_SA}" | base64 -d > firebase-service-account.json
-						chmod 600 firebase-service-account.json
-					"""
+					withCredentials([file(credentialsId: 'FIREBASE_SA', variable: 'FIREBASE_SA_FILE')]) {
+						sh """
+							cp "\${FIREBASE_SA_FILE}" src/main/resources/firebase-service-account.json
+							chmod 600 src/main/resources/firebase-service-account.json
+						"""
+					}
 				}
 			}
 		}
@@ -89,7 +90,7 @@ pipeline {
 						-e SPRING_RABBITMQ_PASSWORD=${SPRING_RABBITMQ_PASSWORD}
 					""".trim().replaceAll('\n\\s+', ' ')
 
-					docker.image(env.DOCKER_IMAGE).withRun("${envVars} -v \${WORKSPACE}/firebase-service-account.json:/app/firebase-service-account.json:ro -p 8080:8080 --name ${newContainer}") { c ->
+					docker.image(env.DOCKER_IMAGE).withRun("${envVars} -v \${WORKSPACE}/src/main/resources/firebase-service-account.json:/app/firebase-service-account.json:ro -p 8080:8080 --name ${newContainer}") { c ->
 						def healthy = false
 						echo "Verificando health check do novo container..."
 
@@ -128,7 +129,7 @@ pipeline {
 
 	post {
 		always {
-			sh 'rm -f firebase-service-account.json'
+			sh 'rm -f src/main/resources/firebase-service-account.json'
 		}
 	}
 }
