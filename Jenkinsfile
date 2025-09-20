@@ -96,11 +96,13 @@ pipeline {
 						-e SPRING_RABBITMQ_PASSWORD=${SPRING_RABBITMQ_PASSWORD}
 					""".trim().replaceAll('\n\\s+', ' ')
 
+
 					sh """
 						echo "Iniciando novo container ${nameContainer}..."
 						docker run -d \
 							--network ${network} \
 							--name ${nameContainer} ${envVars} \
+							-v $WORKSPACE/firebase-service-account.json:/app/firebase-service-account.json:ro \
 							-p 8080:8080 ${env.DOCKER_IMAGE} \
 					"""
 
@@ -116,7 +118,7 @@ pipeline {
 						done
 						echo 'Health FAILED'; docker logs --tail=200 ${nameContainer} || true; exit 1
 					"""
-                }
+				}
 			}
 		}
 	}
