@@ -96,7 +96,6 @@ pipeline {
 						-e SPRING_RABBITMQ_PASSWORD=${SPRING_RABBITMQ_PASSWORD}
 					""".trim().replaceAll('\n\\s+', ' ')
 
-
 					sh """
 						echo "Iniciando novo container ${nameContainer}..."
 						docker run -d \
