@@ -65,7 +65,7 @@ pipeline {
 				script {
 					def nameContainer = 'right-dose'
 					def maxRetries = 5
-					def retryInterval = 5
+					def retryInterval = 20
 
 					sh """
 						if docker ps -a | grep -q ${nameContainer}; then
