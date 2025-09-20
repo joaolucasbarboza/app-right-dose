@@ -5,16 +5,14 @@ pipeline {
 		stage('Build Docker Image') {
 			steps {
 				script {
-					def dockerapp = docker.build("joaolucasbarboza/right-dose:${env.BUILD_ID}", '-f Dockerfile')
-					env.DOCKER_IMAGE = "joaolucasbarboza/right-dose:${env.BUILD_ID}"
+					dockerapp = docker.build("joaolucasbarboza/right-dose:${env.BUILD_ID}", '-f Dockerfile .')
 				}
 			}
 		}
 
-		stage('Push Docker Image') {
+		stage('Push Dcoker Image') {
 			steps {
 				script {
-					def dockerapp = docker.image(env.DOCKER_IMAGE)
 					docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
 						dockerapp.push('latest')
 						dockerapp.push("${env.BUILD_ID}")
@@ -23,7 +21,7 @@ pipeline {
 			}
 		}
 
-		stage('Deploy Docker Image') {
+		stage('Deploy Dcoker Image') {
 			steps {
 				sh 'echo "Deployment Docker Image"'
 			}
