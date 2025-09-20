@@ -28,16 +28,14 @@ pipeline {
 	stages {
 		stage('Setup Firebase') {
 			steps {
-				script {
-					withCredentials([file(credentialsId: 'FIREBASE_SA', variable: 'FIREBASE_SA_FILE')]) {
-						sh """
-							cp "\${FIREBASE_SA_FILE}" src/main/resources/firebase-service-account.json
-							chmod 600 src/main/resources/firebase-service-account.json
-						"""
-					}
-				}
-			}
+				withCredentials([file(credentialsId: 'FIREBASE_SA', variable: 'FIREBASE_SA_FILE')]) {
+				sh '''
+					cp "$FIREBASE_SA_FILE" "$WORKSPACE/firebase-service-account.json"
+					chmod 600 "$WORKSPACE/firebase-service-account.json"
+				'''
 		}
+  }
+}
 
 		stage('Build Docker Image') {
 			steps {
@@ -98,25 +96,30 @@ pipeline {
 						-e SPRING_RABBITMQ_PASSWORD=${SPRING_RABBITMQ_PASSWORD}
 					""".trim().replaceAll('\n\\s+', ' ')
 
-					docker.image(env.DOCKER_IMAGE).withRun("${envVars} -p 8080:8080 --name ${nameContainer} --network ${network}") { c ->
+					docker.image(env.DOCKER_IMAGE).withRun("${envVars} \
+					-p 8080:8080 \
+					--name ${nameContainer} \
+					--network ${network} \
+					-v $WORKSPACE/firebase-service-account.json:/app/firebase-service-account.json:ro \
+					-e GOOGLE_APPLICATION_CREDENTIALS=/app/firebase-service-account.json") { c ->
 						def healthy = false
 						echo "Verificando health check do novo container..."
 
 						for (int i = 0; i < maxRetries; i++) {
-							try {
-								def health = sh(script: "curl -f http://right-dose:8080/actuator/health || exit 1", returnStatus: true)
+						try {
+							def health = sh(script: "curl -f http://right-dose:8080/actuator/health || exit 1", returnStatus: true)
 								if (health == 0) {
-									healthy = true
+								healthy = true
 									break
 								}
 							} catch (Exception e) {
-								echo "Health check tentativa ${i+1} falhou, tentando novamente em ${retryInterval} segundos..."
+							echo "Health check tentativa ${i+1} falhou, tentando novamente em ${retryInterval} segundos..."
 							}
 							sleep retryInterval
 						}
 
 						if (!healthy) {
-							error "Health check falhou após ${maxRetries} tentativas. Abortando deploy."
+						error "Health check falhou após ${maxRetries} tentativas. Abortando deploy."
 						}
 
 						echo "Deploy concluído com sucesso!"
