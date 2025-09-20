@@ -96,42 +96,34 @@ pipeline {
 						-e SPRING_RABBITMQ_PASSWORD=${SPRING_RABBITMQ_PASSWORD}
 					""".trim().replaceAll('\n\\s+', ' ')
 
-					docker.image(env.DOCKER_IMAGE).withRun("${envVars} \
-					-p 8080:8080 \
-					--name ${nameContainer} \
-					--network ${network} \
-					-v $WORKSPACE/firebase-service-account.json:/app/firebase-service-account.json:ro \
-					-e GOOGLE_APPLICATION_CREDENTIALS=/app/firebase-service-account.json") { c ->
-						def healthy = false
-						echo "Verificando health check do novo container..."
+					sh """
+						echo "Iniciando novo container ${nameContainer}..."
+						docker run -d
+							--network ${network}
+							--name ${nameContainer} ${envVars}
+							-p 8080:8080 ${env.DOCKER_IMAGE}
+					"""
 
-						for (int i = 0; i < maxRetries; i++) {
-						try {
-							def health = sh(script: "curl -f http://right-dose:8080/actuator/health || exit 1", returnStatus: true)
-								if (health == 0) {
-								healthy = true
-									break
-								}
-							} catch (Exception e) {
-							echo "Health check tentativa ${i+1} falhou, tentando novamente em ${retryInterval} segundos..."
-							}
-							sleep retryInterval
-						}
-
-						if (!healthy) {
-						error "Health check falhou após ${maxRetries} tentativas. Abortando deploy."
-						}
-
-						echo "Deploy concluído com sucesso!"
-					}
-				}
+					sh """
+						echo 'Verificando health do ${nameContainer}...'
+						for i in \$(seq 1 ${maxRetries}); do
+						  if docker exec ${nameContainer} sh -c 'curl -fsS http://127.0.0.1:8080/actuator/health | grep -q "UP"'; then
+							echo 'Health OK'
+							exit 0
+						  fi
+						  echo "Tentativa \$i/${maxRetries} falhou; aguardando ${retryInterval}s..."
+						  sleep ${retryInterval}
+						done
+						echo 'Health FAILED'; docker logs --tail=200 ${nameContainer} || true; exit 1
+					"""
+                }
 			}
 		}
 	}
 
 	post {
 		always {
-			sh 'rm -f src/main/resources/firebase-service-account.json'
+			sh 'rm -f "$WORKSPACE/firebase-service-account.json" || true'
 		}
 	}
 }
