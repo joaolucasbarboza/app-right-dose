@@ -42,7 +42,7 @@ pipeline {
 				checkout scm
   			}
 			stage('SonarQube Analysis') {
-				def mvn = tool 'Maven 3.9.11;
+				def mvn = tool 'Maven 3.9.11';
 				withSonarQubeEnv() {
 				sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=right-dose -Dsonar.projectName='right-dose'"
 				}
