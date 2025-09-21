@@ -1,6 +1,10 @@
 pipeline {
 	agent any
 
+	tools {
+		maven 'Maven 3.9.11'
+  	}
+
 	environment {
 		SPRING_AI_OLLAMA_BASE_URL = credentials('SPRING_AI_OLLAMA_BASE_URL')
 		SPRING_APPLICATION_NAME = credentials('SPRING_APPLICATION_NAME')
@@ -37,17 +41,17 @@ pipeline {
   			}
 		}
 
-		node {
-			stage('SCM') {
-				checkout scm
-  			}
-			stage('SonarQube Analysis') {
-				def mvn = tool 'Maven 3.9.11';
-				withSonarQubeEnv() {
-				sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=right-dose -Dsonar.projectName='right-dose'"
-				}
-			}
-		}
+		stage('SCM') {
+			steps { checkout scm }
+    	}
+
+    	stage('SonarQube Analysis') {
+			steps {
+				withSonarQubeEnv('sonarqube') {
+          			sh 'mvn -B clean verify sonar:sonar -Dsonar.projectKey=right-dose -Dsonar.projectName=right-dose'
+        		}
+      		}
+    	}
 
 		stage('Build Docker Image') {
 			steps {
