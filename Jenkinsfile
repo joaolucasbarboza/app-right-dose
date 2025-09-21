@@ -33,9 +33,21 @@ pipeline {
 					cp "$FIREBASE_SA_FILE" "$WORKSPACE/firebase-service-account.json"
 					chmod 600 "$WORKSPACE/firebase-service-account.json"
 				'''
+				}
+  			}
 		}
-  }
-}
+
+		node {
+			stage('SCM') {
+				checkout scm
+  			}
+			stage('SonarQube Analysis') {
+				def mvn = tool 'Maven 3.9.11;
+				withSonarQubeEnv() {
+				sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=right-dose -Dsonar.projectName='right-dose'"
+				}
+			}
+		}
 
 		stage('Build Docker Image') {
 			steps {
@@ -65,6 +77,8 @@ pipeline {
 					def nameContainer = 'right-dose'
 					def maxRetries = 5
 					def retryInterval = 20
+
+					docker
 
 					sh """
 						if docker ps -a | grep -q ${nameContainer}; then
