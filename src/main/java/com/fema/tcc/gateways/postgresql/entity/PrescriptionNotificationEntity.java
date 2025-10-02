@@ -22,7 +22,7 @@ public class PrescriptionNotificationEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.REMOVE)
   @JoinColumn(name = "prescription_id")
   @NotNull
   private PrescriptionEntity prescription;
