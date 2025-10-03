@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity(name = "prescription_notification")
@@ -22,9 +24,10 @@ public class PrescriptionNotificationEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne(cascade = CascadeType.REMOVE)
+  @ManyToOne
   @JoinColumn(name = "prescription_id")
   @NotNull
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private PrescriptionEntity prescription;
 
   @Temporal(TemporalType.TIMESTAMP)
