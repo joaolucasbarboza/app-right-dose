@@ -16,6 +16,12 @@ spring:
     username: ${RABBITMQ_DEFAULT_USER}
     password: ${RABBITMQ_DEFAULT_PASS}
 
+gemini:
+  api:
+    base-url: ${SPRING_GEMINI_API_BASE_URL}
+    key: ${SPRING_GEMINI_API_KEY}
+    model: gemini-2.5-flash
+
 management:
   endpoints:
     web:

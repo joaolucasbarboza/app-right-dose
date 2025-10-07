@@ -116,8 +116,11 @@
             <artifactId>netty-resolver-dns-native-macos</artifactId>
             <classifier>osx-aarch_64</classifier>
             <scope>runtime</scope>
-            <!-- versão: deixe SEM version para herdar do Spring Boot (bom),
-                 ou use a MESMA versão das demais libs Netty do seu projeto -->
+        </dependency>
+        <dependency>
+            <groupId>com.google.genai</groupId>
+            <artifactId>google-genai</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
 	</dependencies>

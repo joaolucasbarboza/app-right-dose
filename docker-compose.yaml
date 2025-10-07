@@ -2,51 +2,30 @@ services:
   postgres:
     image: postgres:17
     restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     environment:
-      TZ: America/Sao_Paulo
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    ports:
+      - "5432:5432"
 
   rabbitmq:
-    image: rabbitmq:3-management
-    restart: unless-stopped
-    environment:
-      TZ: America/Sao_Paulo
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    image: rabbitmq:3.13-management
     ports:
+      - "5672:5672"
       - "15672:15672"
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
-  nginx:
-    image: nginx:1.27-alpine
-    container_name: nginx-proxy
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
     restart: unless-stopped
-    depends_on:
-      - rabbitmq
-    ports:
-      - "80:80"
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./nginx/snippets:/etc/nginx/snippets:ro
-    networks:
-      - default
+      - ollama-data:/root/.ollama
+    ports:
+      - "11434:11434"
 
 volumes:
   postgres_data:
-
-networks:
-  default:
-    name: ${COMPOSE_PROJECT_NAME:-right-dose}_default
+  ollama-data:

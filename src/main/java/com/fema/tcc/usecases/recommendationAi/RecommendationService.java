@@ -25,7 +25,7 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor
 public class RecommendationService {
 
-  private final OllamaClient client;
+  private final GeminiClient client;
   private final GetAllPrescriptionUseCase getAllPrescriptionUseCase;
   private final GetAllUserDietaryRestrictionUseCase getAllUserDietaryRestrictionUseCase;
 
@@ -130,8 +130,8 @@ public class RecommendationService {
             .formatted(system, user);
 
     return Map.of(
-        "model",
-        "llama3",
+        "targetModel",
+        "gemini-2.5-flash",
         "prompt",
         prompt,
         "stream",
