@@ -3,7 +3,7 @@ package com.fema.tcc.gateways.http.controllers;
 import com.fema.tcc.domains.dietaryRestriction.DietaryRestriction;
 import com.fema.tcc.gateways.http.mappers.DietaryRestrictionJsonMapper;
 import com.fema.tcc.gateways.http.mappers.DietaryRestrictionResponseJson;
-import com.fema.tcc.useCases.dietaryRestriction.DietaryRestrictionGetAllUseCase;
+import com.fema.tcc.usecases.dietaryRestriction.DietaryRestrictionGetAllUseCase;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

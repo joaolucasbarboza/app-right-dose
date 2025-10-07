@@ -1,6 +1,6 @@
 package com.fema.tcc.jobs;
 
-import com.fema.tcc.useCases.notification.NotificationUseCase;
+import com.fema.tcc.usecases.notification.NotificationUseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

@@ -3,7 +3,7 @@ package com.fema.tcc.gateways.http.controllers;
 import com.fema.tcc.domains.disease.Disease;
 import com.fema.tcc.gateways.http.jsons.DiseaseResponseJson;
 import com.fema.tcc.gateways.http.mappers.DiseaseJsonMapper;
-import com.fema.tcc.useCases.disease.DiseaseGetByNameUseCase;
+import com.fema.tcc.usecases.disease.DiseaseGetByNameUseCase;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

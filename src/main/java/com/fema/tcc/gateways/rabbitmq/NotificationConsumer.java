@@ -1,6 +1,6 @@
 package com.fema.tcc.gateways.rabbitmq;
 
-import com.fema.tcc.useCases.notification.SendNotificationFirebaseUseCase;
+import com.fema.tcc.usecases.notification.SendNotificationFirebaseUseCase;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
