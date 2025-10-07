@@ -5,10 +5,7 @@ import com.fema.tcc.gateways.http.jsons.PrescriptionRequestJson;
 import com.fema.tcc.gateways.http.jsons.PrescriptionResponseJson;
 import com.fema.tcc.gateways.http.jsons.PrescriptionWithNotificationsResponseJson;
 import com.fema.tcc.gateways.http.mappers.PrescriptionJsonMapper;
-import com.fema.tcc.usecases.prescription.CreatePrescriptionUseCase;
-import com.fema.tcc.usecases.prescription.GetAllPrescriptionUseCase;
-import com.fema.tcc.usecases.prescription.PrescriptionUseCase;
-import com.fema.tcc.usecases.prescription.UpdatePrescriptionUseCase;
+import com.fema.tcc.usecases.prescription.*;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -26,6 +23,7 @@ public class PrescriptionController {
   private final GetAllPrescriptionUseCase getAllPrescriptionUseCase;
   private final CreatePrescriptionUseCase createUseCase;
   private final UpdatePrescriptionUseCase updateUseCase;
+  private final ChangeWantsNotificationPrescriptionUseCase changeWantsNotificationPrescriptionUseCase;
   private final PrescriptionJsonMapper prescriptionJsonMapper;
 
   @Operation(
@@ -90,5 +88,11 @@ public class PrescriptionController {
 
     prescriptionUseCase.deleteById(id);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
+
+  @PatchMapping("/{id}/wants-notification")
+  public ResponseEntity<HttpStatus> changeWantsNotification(@PathVariable Long id) {
+    changeWantsNotificationPrescriptionUseCase.execute(id);
+    return ResponseEntity.status(HttpStatus.OK).build();
   }
 }
