@@ -1,7 +1,7 @@
 package com.fema.tcc.gateways.http.controllers;
 
 import com.fema.tcc.gateways.http.jsons.FoodRecommendationResponseJson;
-import com.fema.tcc.usecases.recommendationAi.RecommendationService;
+import com.fema.tcc.useCases.recommendationAi.RecommendationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

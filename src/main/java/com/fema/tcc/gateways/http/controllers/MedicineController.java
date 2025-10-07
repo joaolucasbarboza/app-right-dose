@@ -4,7 +4,7 @@ import com.fema.tcc.domains.medicine.Medicine;
 import com.fema.tcc.gateways.http.jsons.MedicineRequestJson;
 import com.fema.tcc.gateways.http.jsons.MedicineResponseJson;
 import com.fema.tcc.gateways.http.mappers.MedicineJsonMapper;
-import com.fema.tcc.usecases.medicine.MedicineUseCase;
+import com.fema.tcc.useCases.medicine.MedicineUseCase;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
