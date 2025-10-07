@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import reactor.core.publisher.Mono;
 @Component
 public class GeminiClient {
 
+    private static final String TEMPERATURE = "temperature";
     private static final ObjectMapper MAPPER = new ObjectMapper();
     private final WebClient webClient;
     private final String apiKey;
@@ -43,29 +45,14 @@ public class GeminiClient {
             String prompt = String.valueOf(payload.getOrDefault("prompt", ""));
             double temperature = 0.2;
             Object options = payload.get("options");
-            if (options instanceof Map<?, ?> opt && opt.get("temperature") != null) {
-                try { temperature = Double.parseDouble(String.valueOf(opt.get("temperature"))); } catch (Exception ignored) {}
+            if (options instanceof Map<?, ?> opt && opt.get(TEMPERATURE) != null) {
+                try { temperature = Double.parseDouble(String.valueOf(opt.get(TEMPERATURE))); } catch (Exception ignored) {}
             }
 
             String pathModel = model.startsWith("models/") ? model : "models/" + model;
 
             var parts = splitSystemAndUser(prompt);
-            String systemText = parts.system();
-            String userText = parts.user();
-
-            Map<String, Object> generationConfig = Map.of(
-                    "temperature", temperature,
-                    "response_mime_type", "application/json"
-            );
-
-            Map<String, Object> body = Map.of(
-                    "system_instruction", Map.of("parts", List.of(Map.of("text", systemText))),
-                    "contents", List.of(Map.of(
-                            "role", "user",
-                            "parts", List.of(Map.of("text", userText))
-                    )),
-                    "generation_config", generationConfig
-            );
+            Map<String, Object> body = getStringObjectMap(parts, temperature);
 
             String uri = String.format("/v1beta/%s:generateContent?key=%s", pathModel, apiKey);
 
@@ -89,6 +76,26 @@ public class GeminiClient {
         } catch (Exception e) {
             return Mono.error(new IllegalStateException("Erro ao montar request para Gemini: " + e.getMessage(), e));
         }
+    }
+
+    @NotNull
+    private static Map<String, Object> getStringObjectMap(SysUser parts, double temperature) {
+        String systemText = parts.system();
+        String userText = parts.user();
+
+        Map<String, Object> generationConfig = Map.of(
+                TEMPERATURE, temperature,
+                "response_mime_type", "application/json"
+        );
+
+        return Map.of(
+                "system_instruction", Map.of("parts", List.of(Map.of("text", systemText))),
+                "contents", List.of(Map.of(
+                        "role", "user",
+                        "parts", List.of(Map.of("text", userText))
+                )),
+                "generation_config", generationConfig
+        );
     }
 
     private String extractTextOrReturnRaw(String rawJson) {
