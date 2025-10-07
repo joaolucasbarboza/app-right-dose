@@ -32,8 +32,16 @@ public class NotificationUseCase {
       return;
     }
 
+
     notifications.forEach(
         notification -> {
+            if (!notification.getPrescription().isWantsNotifications()) {
+                log.warn(
+                    "[JOB: NotificationJob] - SKIP - User has disabled notifications for prescription ID: {}",
+                    notification.getPrescription().getId());
+                return;
+            }
+
           log.info(
               "[JOB: NotificationJob] - PROCESSING - Processing notification: {}", notification);
 
