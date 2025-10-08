@@ -10,10 +10,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/prescriptions")
 @AllArgsConstructor
@@ -92,6 +94,7 @@ public class PrescriptionController {
 
   @PatchMapping("/{id}/wants-notification")
   public ResponseEntity<HttpStatus> changeWantsNotification(@PathVariable Long id) {
+      log.info("Changing wantsNotification for prescription with id: {}", id);
     changeWantsNotificationPrescriptionUseCase.execute(id);
     return ResponseEntity.status(HttpStatus.OK).build();
   }
