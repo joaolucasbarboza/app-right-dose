@@ -160,7 +160,7 @@ public class RecommendationService {
         contentNode = root;
       } else {
         throw new IllegalStateException(
-            "Resposta do Ollama sem 'response', sem 'message.content' e sem campos finais.");
+            "Resposta do Gemini sem 'response', sem 'message.content' e sem campos finais.");
       }
 
       if (contentNode.isTextual()) {
