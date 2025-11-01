@@ -7,11 +7,14 @@ import com.fema.tcc.gateways.http.mappers.MedicineJsonMapper;
 import com.fema.tcc.usecases.medicine.MedicineUseCase;
 import jakarta.validation.Valid;
 import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "medicine")
 public class MedicineController {
@@ -29,11 +32,14 @@ public class MedicineController {
   @PostMapping(produces = "application/json;charset=UTF-8")
   public ResponseEntity<MedicineResponseJson> create(
       @RequestBody @Valid MedicineRequestJson medicineRequestJson) {
+    log.info("Creating medicine, {}", medicineRequestJson);
 
     Medicine request = medicineJsonMapper.requestToDomain(medicineRequestJson);
 
     Medicine medicine = medicineUseCase.create(request);
     MedicineResponseJson responseJson = medicineJsonMapper.domainToResponse(medicine);
+
+    log.info("Created medicine, {}", responseJson);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(responseJson);
   }

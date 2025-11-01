@@ -35,10 +35,14 @@ public class PrescriptionController {
   public ResponseEntity<PrescriptionResponseJson> create(
       @RequestBody PrescriptionRequestJson requestJson) {
 
+    log.info("Creating prescription, {}", requestJson);
+
     Prescription request = prescriptionJsonMapper.requestToDomain(requestJson);
 
     Prescription prescription = createUseCase.execute(request, requestJson.medicineId());
     PrescriptionResponseJson responseJson = prescriptionJsonMapper.domainToResponse(prescription);
+
+    log.info("Created prescription, {}", responseJson);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(responseJson);
   }
@@ -62,10 +66,13 @@ public class PrescriptionController {
       description = "Buscar uma prescrição especifica por usuário. ")
   @GetMapping(value = "/{id}", produces = "application/json;charset=UTF-8")
   public ResponseEntity<PrescriptionWithNotificationsResponseJson> findById(@PathVariable Long id) {
+    log.info("Finding prescription with id: {}", id);
 
     Prescription prescription = prescriptionUseCase.getById(id);
     PrescriptionWithNotificationsResponseJson responseJson =
         prescriptionJsonMapper.toResponseWithNotifications(prescription);
+
+    log.info("Found prescription with id: {}", responseJson);
 
     return ResponseEntity.status(HttpStatus.OK).body(responseJson);
   }
